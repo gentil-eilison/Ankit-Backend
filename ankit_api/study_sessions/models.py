@@ -9,7 +9,7 @@ from ankit_api.users.utils import user_directory_path
 
 class Language(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
-    icon = models.FileField(verbose_name=_("Icon"))
+    icon = models.FileField(verbose_name=_("Icon"), blank=True)
     history = simple_history_models.HistoricalRecords()
 
     class Meta:
@@ -21,8 +21,10 @@ class Language(models.Model):
 
 
 class StudySession(TimeStampedModel):
-    duration_in_minutes = models.DurationField(verbose_name=_("Duration in minutes"))
-    cards_added = models.PositiveSmallIntegerField(verbose_name=_("Cards added"))
+    duration_in_minutes = models.DurationField(
+        verbose_name=_("Duration in minutes"))
+    cards_added = models.PositiveSmallIntegerField(
+        verbose_name=_("Cards added"))
     spreadsheet_file = models.FileField(
         upload_to=user_directory_path,
         verbose_name=_("Spreadsheet file"),
