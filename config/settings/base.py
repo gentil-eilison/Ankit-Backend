@@ -82,10 +82,13 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "simple_history",
 ]
 
 LOCAL_APPS = [
     "ankit_api.users",
+    "ankit_api.study_sessions",
+    "ankit_api.core",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -145,6 +148,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
 # STATIC
@@ -232,7 +236,9 @@ EMAIL_TIMEOUT = 5
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""Gentil Alyson and Gentil Kadson""", "fernandes.gentilalysonjac@gmail.com")]
+ADMINS = [
+    ("""Gentil Alyson and Gentil Kadson""", "fernandes.gentilalysonjac@gmail.com"),
+]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 # https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
