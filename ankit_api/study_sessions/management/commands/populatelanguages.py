@@ -4,7 +4,7 @@ from ankit_api.study_sessions.models import Language
 
 
 class Command(BaseCommand):
-    help = "Creates a new language"
+    help = "Creates languages"
 
     def handle(self, *args, **options) -> str | None:
         languages = (
