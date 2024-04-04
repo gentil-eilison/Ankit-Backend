@@ -56,6 +56,8 @@ class User(AbstractUser):
         related_name="users",
         on_delete=models.PROTECT,
         verbose_name=_("Nationality"),
+        blank=True,
+        null=True,
     )
     history = simple_history_models.HistoricalRecords()
 

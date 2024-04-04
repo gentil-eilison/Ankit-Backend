@@ -114,8 +114,6 @@ LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
-LOGOUT_REDIRECT_URL = "/"
-
 # PASSWORDS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#password-hashers
@@ -352,18 +350,18 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": [
-            "profile",
-            "email",
-        ],
-        "APP": {
-            "client_id": env("CLIENT_ID"),
-            "secret": env("CLIENT_SECRET"),
-        },
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-    },
-}
+# SOCIALACCOUNT_PROVIDERS = {
+#     "google": {
+#         "SCOPE": [
+#             "profile",
+#             "email",
+#         ],
+#         "APP": {
+#             "client_id": env("CLIENT_ID"),
+#             "secret": env("CLIENT_SECRET"),
+#         },
+#         "AUTH_PARAMS": {
+#             "access_type": "online",
+#         },
+#     },
+# }
