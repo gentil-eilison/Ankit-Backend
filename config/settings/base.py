@@ -350,18 +350,3 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
-# SOCIALACCOUNT_PROVIDERS = {
-#     "google": {
-#         "SCOPE": [
-#             "profile",
-#             "email",
-#         ],
-#         "APP": {
-#             "client_id": env("CLIENT_ID"),
-#             "secret": env("CLIENT_SECRET"),
-#         },
-#         "AUTH_PARAMS": {
-#             "access_type": "online",
-#         },
-#     },
-# }
