@@ -1,6 +1,6 @@
 from django.utils.text import get_text_list
 from openai import OpenAI
-from openai.types.chat.chat_completion import Choice
+from openai.types.chat.chat_completion import ChatCompletion
 
 
 class ChatGPT:
@@ -12,7 +12,7 @@ class ChatGPT:
     def __init__(self, model: str = "gpt-3.5-turbo") -> None:
         self.__model: str = self.__set_model(model)
         self.__client = OpenAI()
-        self.__current_response: list[Choice] = []
+        self.__current_response: str = []
 
     def __set_model(self, model: str) -> str:
         if model not in self.MODELS:
@@ -34,12 +34,20 @@ class ChatGPT:
         return self.__model
 
     @property
-    def current_response(self) -> list[Choice]:
+    def current_response(self) -> str:
         return self.__current_response
 
     @model.setter
     def model(self, new_model: str) -> None:
         self.__model = new_model
+
+    def get_response_for(self, prompt: str) -> ChatCompletion:
+        return self.client.chat.completions.create(
+            model=self.__model,
+            messages=[
+                {"role": "user", "content": prompt},
+            ],
+        )
 
     def get_card_for_word(self, word: str, language: str) -> None:
         prompt = (
@@ -48,10 +56,17 @@ class ChatGPT:
             "e a parte de trás contendo a tradução dessa frase em português, "
             f"dando destaque à palavra '{word}' e sua respectiva tradução?"
         )
-        response = self.client.chat.completions.create(
-            model=self.__model,
-            messages=[
-                {"role": "user", "content": prompt},
-            ],
+        response = self.get_response_for(prompt)
+        self.__current_response = response.choices[0].message.content
+
+    def get_cards_by_topic(self, topic: str, language: str) -> None:
+        prompt = (
+            f"Você poderia criar no mínimo 10 flashcards com"
+            f"vocabulário de {topic} "
+            f"completo em {language}, com a frente contendo uma palavra"
+            "desse tema em uma frase de exemplo, e a parte de trás "
+            "contendo a tradução completa da frase em português, dando "
+            "destaque à palavra e sua respectiva tradução?"
         )
-        self.__current_response = response.choices
+        response = self.get_response_for(prompt)
+        self.__current_response = response.choices[0].message.content
