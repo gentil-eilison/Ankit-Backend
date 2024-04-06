@@ -15,10 +15,10 @@ from .serializers import VocabularyBuilderSerializer
 
 
 class VocabularyBuilderView(APIView):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        vocabulary_builder_serializer = VocabularyBuilderSerializer(data=request.data)
+        vocabulary_builder_serializer = VocabularyBuilderSerializer(data=request.POST)
         if vocabulary_builder_serializer.is_valid():
             topic, name, language = itemgetter("topic", "name", "language")(
                 vocabulary_builder_serializer.data,
