@@ -1,6 +1,10 @@
+import re
+
 from django.utils.text import get_text_list
 from openai import OpenAI
 from openai.types.chat.chat_completion import ChatCompletion
+
+from ankit_api.study_sessions.classes.anki_card import AnkiCard
 
 
 class ChatGPT:
@@ -51,10 +55,9 @@ class ChatGPT:
 
     def get_card_for_word(self, word: str, language: str) -> None:
         prompt = (
-            f"Você poderia criar um flashcard com a frente contendo a palavra "
-            f"'{word}' do {language}, dentro de uma frase de exemplo, "
-            "e o verso contendo a tradução dessa frase em português, "
-            f"dando destaque em negrito à palavra '{word}' e sua respectiva tradução?"
+            "Crie uma flashcard com a seguinte estrutura: \n"
+            f"Frente: frase em {language} com a palavra {word} dentro da frase\n"
+            f"Verso: tradução da frase que está na frente para o português"
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
@@ -66,12 +69,22 @@ class ChatGPT:
         cards_count: int = 10,
     ) -> None:
         prompt = (
-            f"Você poderia criar no mínimo {cards_count} flashcards com"
-            f"vocabulário de {topic} "
-            f"completo em {language}, com a frente contendo uma palavra"
-            "desse tema em uma frase de exemplo, e o verso "
-            "contendo a tradução completa da frase em português, dando "
-            "destaque em negrito à palavra e sua respectiva tradução?"
+            f"Você poderia criar no mínimo {cards_count} flashcards"
+            f"com vocabulário de {topic} completo em {language}, com"
+            f"a frente contendo o texto 'Frente:' e o conteúdo sendo"
+            "uma frase de exemplo, e o verso contendo o texto 'Verso:'"
+            "e a exatamente mesma frase completa do exemplo da frente, "
+            "mas em português?"
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
+
+    def generate_cards(self) -> list[AnkiCard]:
+        cards = []
+        fronts: list[str] = re.findall(r"(?<=Frente:) .+", self.__current_response)
+        backs: list[str] = re.findall(r"(?<=Verso:) .+", self.__current_response)
+        front_back_pairs = zip(fronts, backs, strict=False)
+
+        for front, back in front_back_pairs:
+            cards.append(AnkiCard(front=front.strip(), back=back.strip()))
+        return cards

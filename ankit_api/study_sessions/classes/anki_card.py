@@ -1,5 +1,5 @@
 class AnkiCard:
-    def __init__(self, front: str, back: str, audio_filename: str):
+    def __init__(self, front: str, back: str, audio_filename: str = ""):
         self.__front = front
         self.__back = back
         self.__audio_filename = audio_filename
