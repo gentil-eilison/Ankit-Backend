@@ -53,20 +53,25 @@ class ChatGPT:
         prompt = (
             f"Você poderia criar um flashcard com a frente contendo a palavra "
             f"'{word}' do {language}, dentro de uma frase de exemplo, "
-            "e a parte de trás contendo a tradução dessa frase em português, "
-            f"dando destaque à palavra '{word}' e sua respectiva tradução?"
+            "e o verso contendo a tradução dessa frase em português, "
+            f"dando destaque em negrito à palavra '{word}' e sua respectiva tradução?"
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
 
-    def get_cards_by_topic(self, topic: str, language: str) -> None:
+    def get_cards_by_topic(
+        self,
+        topic: str,
+        language: str,
+        cards_count: int = 10,
+    ) -> None:
         prompt = (
-            f"Você poderia criar no mínimo 10 flashcards com"
+            f"Você poderia criar no mínimo {cards_count} flashcards com"
             f"vocabulário de {topic} "
             f"completo em {language}, com a frente contendo uma palavra"
-            "desse tema em uma frase de exemplo, e a parte de trás "
+            "desse tema em uma frase de exemplo, e o verso "
             "contendo a tradução completa da frase em português, dando "
-            "destaque à palavra e sua respectiva tradução?"
+            "destaque em negrito à palavra e sua respectiva tradução?"
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
