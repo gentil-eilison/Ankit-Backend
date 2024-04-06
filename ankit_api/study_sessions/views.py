@@ -21,13 +21,18 @@ class VocabularyBuilderView(APIView):
     def post(self, request, *args, **kwargs):
         vocabulary_builder_serializer = VocabularyBuilderSerializer(data=request.data)
         if vocabulary_builder_serializer.is_valid():
-            topic, name, language = itemgetter("topic", "name", "language")(
+            topic, name, language, cards_count = itemgetter(
+                "topic",
+                "name",
+                "language",
+                "cards_count",
+            )(
                 vocabulary_builder_serializer.data,
             )
             client = ChatGPT()
             language = Language.objects.get(id=language)
             if topic:
-                client.get_cards_by_topic(name, language.name)
+                client.get_cards_by_topic(name, language.name, cards_count)
             else:
                 client.get_card_for_word(name, language.name)
             cards = client.generate_cards()
