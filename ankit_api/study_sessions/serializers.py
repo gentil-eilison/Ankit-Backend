@@ -13,7 +13,7 @@ class StudySessionSerializer(serializers.ModelSerializer):
             "id",
             "duration_in_minutes",
             "cards_added",
-            "spreadsheet_file",
+            "csv_file",
             "language",
             "user",
         )

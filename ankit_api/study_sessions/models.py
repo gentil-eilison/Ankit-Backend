@@ -37,7 +37,7 @@ class StudySession(TimeStampedModel):
         blank=True,
         default=0,
     )
-    spreadsheet_file = models.FileField(
+    csv_file = models.FileField(
         upload_to=user_directory_path,
         verbose_name=_("Spreadsheet file"),
         blank=True,
@@ -72,6 +72,6 @@ class StudySession(TimeStampedModel):
         csv_maker.generate_csv()
         path = Path(csv_maker.filename)
         with path.open("rb") as file:
-            self.spreadsheet_file = File(file, path.name)
+            self.csv_file = File(file, path.name)
             self.save()
         csv_maker.clean()
