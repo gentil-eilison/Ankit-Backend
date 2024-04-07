@@ -1,14 +1,18 @@
 from operator import itemgetter
 
+from django.contrib.auth import get_user_model
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ankit_api.chatgpt import ChatGPT
 from ankit_api.study_sessions.models import Language
 
+from .classes.anki_card import AnkiCard
+from .classes.csv_maker import FlashCardsCSVMaker
 from .models import StudySession
 from .serializers import AnkiCardSerializer
 from .serializers import StudySessionSerializer
@@ -50,4 +54,23 @@ class VocabularyBuilderView(APIView):
 class StudySessionViewSet(viewsets.ModelViewSet):
     queryset = StudySession.objects.all()
     serializer_class = StudySessionSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
+    http_method_names = ("get", "post", "delete")
+
+    def perform_create(self, serializer):
+        user_model = get_user_model()
+        serializer.save(user=user_model.objects.first())
+
+    @action(methods=["post"], detail=True)
+    def finish(self, request, pk=None):
+        cards_serializer = AnkiCardSerializer(data=request.data, many=True)
+        cards_serializer.is_valid(raise_exception=True)
+        sheet_maker = FlashCardsCSVMaker(
+            cards=[
+                AnkiCard(front=card["front"], back=card["back"])
+                for card in cards_serializer.data
+            ],
+            filename="teste.xlsx",
+        )
+        sheet_maker.generate_csv()
+        return Response(data={"teste": "teste"}, status=status.HTTP_200_OK)

@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -22,12 +24,19 @@ class Language(models.Model):
 
 class StudySession(TimeStampedModel):
     duration_in_minutes = models.DurationField(
-        verbose_name=_("Duration in minutes"))
+        verbose_name=_("Duration in minutes"),
+        blank=True,
+        default=timedelta(minutes=0),
+    )
     cards_added = models.PositiveSmallIntegerField(
-        verbose_name=_("Cards added"))
+        verbose_name=_("Cards added"),
+        blank=True,
+        default=0,
+    )
     spreadsheet_file = models.FileField(
         upload_to=user_directory_path,
         verbose_name=_("Spreadsheet file"),
+        blank=True,
     )
     language = models.ForeignKey(
         Language,

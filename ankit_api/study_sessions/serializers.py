@@ -4,7 +4,9 @@ from .models import Language
 from .models import StudySession
 
 
-class StudySessionSerializer(serializers.HyperlinkedModelSerializer):
+class StudySessionSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = StudySession
         fields = (
@@ -19,7 +21,7 @@ class StudySessionSerializer(serializers.HyperlinkedModelSerializer):
 class AnkiCardSerializer(serializers.Serializer):
     front = serializers.CharField(max_length=128)
     back = serializers.CharField(max_length=128)
-    audio_filename = serializers.FileField(max_length=255)
+    audio_filename = serializers.FileField(max_length=255, required=False)
 
 
 class VocabularyBuilderSerializer(serializers.Serializer):
