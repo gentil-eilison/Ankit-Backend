@@ -26,6 +26,7 @@ class VocabularyBuilderView(APIView):
                 "name",
                 "language",
                 "cards_count",
+                "text_to_speech",
             )(
                 vocabulary_builder_serializer.data,
             )

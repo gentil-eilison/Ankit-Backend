@@ -27,3 +27,4 @@ class VocabularyBuilderSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     language = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
     cards_count = serializers.IntegerField(min_value=1, max_value=20, default=10)
+    text_to_speech = serializers.BooleanField(default=False)
