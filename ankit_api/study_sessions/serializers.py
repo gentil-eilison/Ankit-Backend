@@ -10,6 +10,7 @@ class StudySessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudySession
         fields = (
+            "id",
             "duration_in_minutes",
             "cards_added",
             "spreadsheet_file",

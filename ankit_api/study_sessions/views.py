@@ -11,8 +11,6 @@ from rest_framework.views import APIView
 from ankit_api.chatgpt import ChatGPT
 from ankit_api.study_sessions.models import Language
 
-from .classes.anki_card import AnkiCard
-from .classes.csv_maker import FlashCardsCSVMaker
 from .models import StudySession
 from .serializers import AnkiCardSerializer
 from .serializers import StudySessionSerializer
@@ -65,12 +63,6 @@ class StudySessionViewSet(viewsets.ModelViewSet):
     def finish(self, request, pk=None):
         cards_serializer = AnkiCardSerializer(data=request.data, many=True)
         cards_serializer.is_valid(raise_exception=True)
-        sheet_maker = FlashCardsCSVMaker(
-            cards=[
-                AnkiCard(front=card["front"], back=card["back"])
-                for card in cards_serializer.data
-            ],
-            filename="teste.xlsx",
-        )
-        sheet_maker.generate_csv()
+        study_session: StudySession = self.get_object()
+        study_session.add_flaschards_file(cards_serializer.validated_data)
         return Response(data={"teste": "teste"}, status=status.HTTP_200_OK)
