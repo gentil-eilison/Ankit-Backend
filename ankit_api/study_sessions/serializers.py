@@ -19,7 +19,7 @@ class StudySessionSerializer(serializers.HyperlinkedModelSerializer):
 class AnkiCardSerializer(serializers.Serializer):
     front = serializers.CharField(max_length=128)
     back = serializers.CharField(max_length=128)
-    audio_filename = serializers.FileField(max_length=255)
+    audio_filename = serializers.CharField(max_length=255)
 
 
 class VocabularyBuilderSerializer(serializers.Serializer):

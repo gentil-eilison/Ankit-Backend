@@ -1,6 +1,7 @@
-import re, uuid
-
+import re
+import uuid
 from pathlib import Path
+
 from django.conf import settings
 from django.utils.text import get_text_list
 from openai import OpenAI
@@ -56,15 +57,21 @@ class ChatGPT:
         )
 
     def generate_audio_for_phrase(self, phrase: str) -> Path:
-        speech_file_path = Path(settings.TTS_SPEECH_FILES_DIR + f"/audio-{uuid.uuid4().hex}")  
+        speech_file_path = Path(
+            settings.TTS_SPEECH_FILES_DIR + f"/audio-{uuid.uuid4().hex}.mp3",
+        )
         audio_phrase = self.__client.audio.speech.create(
             model="tts-1",
             voice="alloy",
-            input=phrase
+            input=phrase,
         )
 
-        audio_phrase.stream_to_file(speech_file_path)
-        return speech_file_path.absolute()
+        try:
+            audio_phrase.stream_to_file(speech_file_path)
+        except FileNotFoundError:
+            Path(settings.TTS_SPEECH_FILES_DIR).mkdir(parents=True, exist_ok=True)
+            audio_phrase.stream_to_file(speech_file_path)
+        return speech_file_path
 
     def get_card_for_word(self, word: str, language: str) -> None:
         prompt = (
@@ -92,13 +99,21 @@ class ChatGPT:
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
 
-    def generate_cards(self) -> list[AnkiCard]:
+    def generate_cards(self, generate_audio) -> list[AnkiCard]:
         cards = []
         fronts: list[str] = re.findall(r"(?<=Frente:) .+", self.__current_response)
         backs: list[str] = re.findall(r"(?<=Verso:) .+", self.__current_response)
         front_back_pairs = zip(fronts, backs, strict=False)
 
         for front, back in front_back_pairs:
-            audio_path = self.generate_audio_for_phrase(front)
-            cards.append(AnkiCard(front=front.strip(), back=back.strip(), audio_filename=audio_path))
+            audio_path = ""
+            if generate_audio is True:
+                audio_path = self.generate_audio_for_phrase(front)
+            cards.append(
+                AnkiCard(
+                    front=front.strip(),
+                    back=back.strip(),
+                    audio_filename=str(audio_path),
+                ),
+            )
         return cards

@@ -350,4 +350,4 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
-TTS_SPEECH_FILES_DIR = MEDIA_ROOT / "speech_files" 
+TTS_SPEECH_FILES_DIR = MEDIA_ROOT + "/speech_files"

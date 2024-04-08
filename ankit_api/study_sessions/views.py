@@ -21,7 +21,7 @@ class VocabularyBuilderView(APIView):
     def post(self, request, *args, **kwargs):
         vocabulary_builder_serializer = VocabularyBuilderSerializer(data=request.data)
         if vocabulary_builder_serializer.is_valid():
-            topic, name, language, cards_count = itemgetter(
+            topic, name, language, cards_count, text_to_speech = itemgetter(
                 "topic",
                 "name",
                 "language",
@@ -36,7 +36,7 @@ class VocabularyBuilderView(APIView):
                 client.get_cards_by_topic(name, language.name, cards_count)
             else:
                 client.get_card_for_word(name, language.name)
-            cards = client.generate_cards()
+            cards = client.generate_cards(generate_audio=text_to_speech)
             cards_serializer = AnkiCardSerializer(cards, many=True)
             return Response(
                 status=status.HTTP_200_OK,
