@@ -1,6 +1,7 @@
-import re
+import re, uuid
 
 from pathlib import Path
+from django.conf import settings
 from django.utils.text import get_text_list
 from openai import OpenAI
 from openai.types.chat.chat_completion import ChatCompletion
@@ -54,6 +55,17 @@ class ChatGPT:
             ],
         )
 
+    def generate_audio_for_phrase(self, phrase: str) -> Path:
+        speech_file_path = Path(settings.TTS_SPEECH_FILES_DIR + f"/audio-{uuid.uuid4().hex}")  
+        audio_phrase = self.__client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=phrase
+        )
+
+        audio_phrase.stream_to_file(speech_file_path)
+        return speech_file_path.absolute()
+
     def get_card_for_word(self, word: str, language: str) -> None:
         prompt = (
             "Crie uma flashcard com a seguinte estrutura: \n"
@@ -87,15 +99,6 @@ class ChatGPT:
         front_back_pairs = zip(fronts, backs, strict=False)
 
         for front, back in front_back_pairs:
-            cards.append(AnkiCard(front=front.strip(), back=back.strip()))
+            audio_path = self.generate_audio_for_phrase(front)
+            cards.append(AnkiCard(front=front.strip(), back=back.strip(), audio_filename=audio_path))
         return cards
-    
-    def generate_audio_for_phrase(self, phrase: str) -> None:
-        speech_file_path = Path(__file__).parent / f"{phrase}.mp3"
-        audio_phrase = self.__client.audio.speech.create(
-            model="tts-1",
-            voice="alloy",
-            input=phrase
-        )
-
-        audio_phrase.stream_to_file(speech_file_path)
