@@ -1,5 +1,6 @@
 import re
 
+from pathlib import Path
 from django.utils.text import get_text_list
 from openai import OpenAI
 from openai.types.chat.chat_completion import ChatCompletion
@@ -88,3 +89,13 @@ class ChatGPT:
         for front, back in front_back_pairs:
             cards.append(AnkiCard(front=front.strip(), back=back.strip()))
         return cards
+    
+    def generate_audio_for_phrase(self, phrase: str) -> None:
+        speech_file_path = Path(__file__).parent / f"{phrase}.mp3"
+        audio_phrase = self.__client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=phrase
+        )
+
+        audio_phrase.stream_to_file(speech_file_path)
