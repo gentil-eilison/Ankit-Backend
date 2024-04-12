@@ -19,7 +19,6 @@ class StudySessionSerializer(serializers.HyperlinkedModelSerializer):
 class AnkiCardSerializer(serializers.Serializer):
     front = serializers.CharField(max_length=128)
     back = serializers.CharField(max_length=128)
-    audio_filename = serializers.CharField(max_length=255)
 
 
 class VocabularyBuilderSerializer(serializers.Serializer):
@@ -27,4 +26,3 @@ class VocabularyBuilderSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     language = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
     cards_count = serializers.IntegerField(min_value=1, max_value=20, default=10)
-    text_to_speech = serializers.BooleanField(default=False)
