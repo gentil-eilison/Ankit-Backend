@@ -86,5 +86,10 @@ class ChatGPT:
         front_back_pairs = zip(fronts, backs, strict=False)
 
         for front, back in front_back_pairs:
-            cards.append(AnkiCard(front=front.strip(), back=back.strip()))
+            cards.append(
+                AnkiCard(
+                    front=front.strip(),
+                    back=back.strip(),
+                ),
+            )
         return cards
