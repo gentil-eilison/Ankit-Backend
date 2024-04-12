@@ -17,6 +17,14 @@ class ChatGPT:
         self.__model: str = self.__set_model(model)
         self.__client = OpenAI()
         self.__current_response: str = []
+        self.__card_types: dict[str] = {
+            "basic": "a tradução da frase que está na frente para o português",
+            "intermediate": "a palavra a qual foi solicitada a tradução, seguido de sua"
+            "tradução, nessa estrutura: palavra: tradução da palavra",
+            "advanced": "a palavra a qual foi solicitada a tradução, seguido de sua"
+            "definição no idioma, na seguinte estrutura: palavra: significado da"
+            "palavra em",
+        }
 
     def __set_model(self, model: str) -> str:
         if model not in self.MODELS:
@@ -53,11 +61,17 @@ class ChatGPT:
             ],
         )
 
-    def get_card_for_word(self, word: str, language: str) -> None:
+    def handle_card_type_string(self, card_type: str, language: str) -> str:
+        if card_type == "advanced":
+            return f"{self.__card_types[card_type]} {language}"
+        return f"{self.__card_types[card_type]}"
+
+    def get_card_for_word(self, word: str, language: str, card_type: str) -> None:
+        verse_card_prompt = self.handle_card_type_string(card_type, language)
         prompt = (
             "Crie uma flashcard com a seguinte estrutura: \n"
             f"Frente: frase em {language} com a palavra {word} dentro da frase\n"
-            f"Verso: tradução da frase que está na frente para o português"
+            f"Verso: {verse_card_prompt}"
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
@@ -72,9 +86,8 @@ class ChatGPT:
             f"Você poderia criar no mínimo {cards_count} flashcards"
             f"com vocabulário de {topic} completo em {language}, com"
             f"a frente contendo o texto 'Frente:' e o conteúdo sendo"
-            "uma frase de exemplo, e o verso contendo o texto 'Verso:'"
-            "e a exatamente mesma frase completa do exemplo da frente, "
-            "mas em português?"
+            f"uma frase de exemplo, e o verso contendo o texto 'Verso:'"
+            f"com "
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
