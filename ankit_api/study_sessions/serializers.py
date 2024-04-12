@@ -4,13 +4,16 @@ from .models import Language
 from .models import StudySession
 
 
-class StudySessionSerializer(serializers.HyperlinkedModelSerializer):
+class StudySessionSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = StudySession
         fields = (
+            "id",
             "duration_in_minutes",
             "cards_added",
-            "spreadsheet_file",
+            "csv_file",
             "language",
             "user",
         )

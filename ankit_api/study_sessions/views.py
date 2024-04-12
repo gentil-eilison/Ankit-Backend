@@ -1,8 +1,10 @@
 from operator import itemgetter
 
+from django.contrib.auth import get_user_model
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -50,4 +52,17 @@ class VocabularyBuilderView(APIView):
 class StudySessionViewSet(viewsets.ModelViewSet):
     queryset = StudySession.objects.all()
     serializer_class = StudySessionSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
+    http_method_names = ("get", "post", "delete")
+
+    def perform_create(self, serializer):
+        user_model = get_user_model()
+        serializer.save(user=user_model.objects.first())
+
+    @action(methods=["post"], detail=True)
+    def finish(self, request, pk=None):
+        cards_serializer = AnkiCardSerializer(data=request.data, many=True)
+        cards_serializer.is_valid(raise_exception=True)
+        study_session: StudySession = self.get_object()
+        study_session.add_flaschards_file(cards_serializer.validated_data)
+        return Response(data={}, status=status.HTTP_200_OK)
