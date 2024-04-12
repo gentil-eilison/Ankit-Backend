@@ -35,7 +35,7 @@ class VocabularyBuilderView(APIView):
             client = ChatGPT()
             language = Language.objects.get(id=language)
             if topic:
-                client.get_cards_by_topic(name, language.name, cards_count)
+                client.get_cards_by_topic(name, language.name, card_type, cards_count)
             else:
                 client.get_card_for_word(name, language.name, card_type)
             cards = client.generate_cards()

@@ -61,13 +61,33 @@ class ChatGPT:
             ],
         )
 
-    def handle_card_type_string(self, card_type: str, language: str) -> str:
+    def handle_card_type_string(
+        self,
+        card_type: str,
+        language: str,
+        is_topic,
+    ) -> str:
         if card_type == "advanced":
+            if is_topic:
+                return (
+                    f"{self.__card_types[card_type]} {language}, sendo que o termo "
+                    "'palavra' se refere à palavra da frase que faz parte do tópico "
+                    "que pedi"
+                )
             return f"{self.__card_types[card_type]} {language}"
+        if card_type == "intermediate" and is_topic:
+            return (
+                f"{self.__card_types[card_type]}, sendo que 'palavra' se refere ao "
+                "termo da frase que faz parte do tópico que pedi"
+            )
         return f"{self.__card_types[card_type]}"
 
     def get_card_for_word(self, word: str, language: str, card_type: str) -> None:
-        verse_card_prompt = self.handle_card_type_string(card_type, language)
+        verse_card_prompt = self.handle_card_type_string(
+            card_type,
+            language,
+            is_topic=False,
+        )
         prompt = (
             "Crie uma flashcard com a seguinte estrutura: \n"
             f"Frente: frase em {language} com a palavra {word} dentro da frase\n"
@@ -80,14 +100,20 @@ class ChatGPT:
         self,
         topic: str,
         language: str,
+        card_type: str,
         cards_count: int = 10,
     ) -> None:
+        verse_card_prompt = self.handle_card_type_string(
+            card_type,
+            language,
+            is_topic=True,
+        )
         prompt = (
             f"Você poderia criar no mínimo {cards_count} flashcards"
             f"com vocabulário de {topic} completo em {language}, com"
             f"a frente contendo o texto 'Frente:' e o conteúdo sendo"
             f"uma frase de exemplo, e o verso contendo o texto 'Verso:'"
-            f"com "
+            f"com {verse_card_prompt}. Só pode haver uma palavra do tópico por frase."
         )
         response = self.get_response_for(prompt)
         self.__current_response = response.choices[0].message.content
