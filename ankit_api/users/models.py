@@ -59,6 +59,7 @@ class User(AbstractUser):
         blank=True,
         null=True,
     )
+    studied_today = models.BooleanField(verbose_name=_("Studied today"), default=False)
     history = simple_history_models.HistoricalRecords()
 
     USERNAME_FIELD = "email"
@@ -68,3 +69,9 @@ class User(AbstractUser):
 
     def get_absolute_url(self) -> str:
         return reverse("users:detail", kwargs={"pk": self.id})
+
+    def update_streak(self):
+        if not self.studied_today:
+            self.streak += 1
+            self.studied_today = True
+            self.save()
