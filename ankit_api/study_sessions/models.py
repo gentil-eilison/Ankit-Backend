@@ -1,6 +1,8 @@
+from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
 
+import pytz
 from django.conf import settings
 from django.core.files import File
 from django.db import models
@@ -75,3 +77,8 @@ class StudySession(TimeStampedModel):
             self.csv_file = File(file, path.name)
             self.save()
         csv_maker.clean()
+
+    def update_duration(self):
+        timezone = pytz.timezone(settings.TIME_ZONE)
+        self.duration_in_minutes = datetime.now(tz=timezone) - self.created_at
+        self.save()

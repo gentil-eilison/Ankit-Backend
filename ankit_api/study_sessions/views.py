@@ -65,4 +65,5 @@ class StudySessionViewSet(viewsets.ModelViewSet):
         cards_serializer.is_valid(raise_exception=True)
         study_session: StudySession = self.get_object()
         study_session.add_flaschards_file(cards_serializer.validated_data)
+        study_session.update_duration()
         return Response(data={}, status=status.HTTP_200_OK)
