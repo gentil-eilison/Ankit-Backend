@@ -61,10 +61,15 @@ class StudySessionViewSet(viewsets.ModelViewSet):
 
     @action(methods=["post"], detail=True)
     def finish(self, request, pk=None):
-        cards_serializer = AnkiCardSerializer(data=request.data, many=True)
-        cards_serializer.is_valid(raise_exception=True)
         study_session: StudySession = self.get_object()
-        study_session.add_flaschards_file(cards_serializer.validated_data)
-        study_session.update_duration()
-        study_session.user.update_streak()
-        return Response(data={}, status=status.HTTP_200_OK)
+        if not study_session.csv_file:
+            cards_serializer = AnkiCardSerializer(data=request.data, many=True)
+            cards_serializer.is_valid(raise_exception=True)
+            study_session.add_flaschards_file(cards_serializer.validated_data)
+            study_session.update_duration()
+            study_session.user.update_streak()
+            return Response(data={}, status=status.HTTP_200_OK)
+        return Response(
+            status=status.HTTP_400_BAD_REQUEST,
+            data={"error": "Study session already finished"},
+        )
