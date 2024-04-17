@@ -1,3 +1,4 @@
+import csv
 from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
@@ -82,3 +83,10 @@ class StudySession(TimeStampedModel):
         timezone = pytz.timezone(settings.TIME_ZONE)
         self.duration_in_minutes = datetime.now(tz=timezone) - self.created_at
         self.save()
+
+    def update_cards_added(self):
+        with Path.open(self.csv_file.path) as file:
+            reader = csv.reader(file, delimiter=",")
+            cards_count = sum(1 for row in reader)
+            self.cards_added = cards_count
+            self.save()
