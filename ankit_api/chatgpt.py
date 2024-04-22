@@ -61,7 +61,7 @@ class ChatGPT:
             ],
         )
 
-    def handle_card_type_string(
+    def get_prompt_for_card_type(
         self,
         card_type: str,
         language: str,
@@ -83,7 +83,7 @@ class ChatGPT:
         return f"{self.__card_types[card_type]}"
 
     def get_card_for_word(self, word: str, language: str, card_type: str) -> None:
-        verse_card_prompt = self.handle_card_type_string(
+        verse_card_prompt = self.get_prompt_for_card_type(
             card_type,
             language,
             is_topic=False,
@@ -103,7 +103,7 @@ class ChatGPT:
         card_type: str,
         cards_count: int = 10,
     ) -> None:
-        verse_card_prompt = self.handle_card_type_string(
+        verse_card_prompt = self.get_prompt_for_card_type(
             card_type,
             language,
             is_topic=True,

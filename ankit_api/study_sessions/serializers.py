@@ -25,10 +25,10 @@ class AnkiCardSerializer(serializers.Serializer):
 
 
 class VocabularyBuilderSerializer(serializers.Serializer):
-    choices = ("basic", "intermediate", "advanced")
+    card_type_choices = ("basic", "intermediate", "advanced")
 
     topic = serializers.BooleanField(default=False)
     name = serializers.CharField(max_length=255)
     language = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
     cards_count = serializers.IntegerField(min_value=1, max_value=20, default=10)
-    card_type = serializers.ChoiceField(choices)
+    card_type = serializers.ChoiceField(card_type_choices)
