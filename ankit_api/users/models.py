@@ -30,17 +30,30 @@ class User(AbstractUser):
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
 
+    # First and last name do not cover name patterns around the globe
+    name = models.CharField(_("Name of User"), blank=True, max_length=255)
+    email = models.EmailField(_("email address"), unique=True)
+    username = None  # type: ignore[assignment]
+    history = simple_history_models.HistoricalRecords()
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects: ClassVar[UserManager] = UserManager()
+
+    def get_absolute_url(self) -> str:
+        return reverse("users:detail", kwargs={"pk": self.id})
+
+
+class Student(TimeStampedModel):
     class EducationalLevels(models.TextChoices):
         MIDDLE_SCHOOL = "Middle School", _("Ensino Fundamental")
         HIGH_SCHOOL = "High School", _("Ensino Médio")
         UNIVERSITY = "University", _("Superior")
 
-    # First and last name do not cover name patterns around the globe
-    name = models.CharField(_("Name of User"), blank=True, max_length=255)
     first_name = models.CharField(max_length=255, verbose_name=_("First name"))
     last_name = models.CharField(max_length=255, verbose_name=_("Last name"))
-    email = models.EmailField(_("email address"), unique=True)
-    username = None  # type: ignore[assignment]
+
     educational_level = models.CharField(
         max_length=13,
         choices=EducationalLevels.choices,
@@ -60,15 +73,20 @@ class User(AbstractUser):
         null=True,
     )
     studied_today = models.BooleanField(verbose_name=_("Studied today"), default=False)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_("User"),
+        related_name="student",
+    )
     history = simple_history_models.HistoricalRecords()
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    class Meta:
+        verbose_name = _("Student")
+        verbose_name_plural = _("Students")
 
-    objects: ClassVar[UserManager] = UserManager()
-
-    def get_absolute_url(self) -> str:
-        return reverse("users:detail", kwargs={"pk": self.id})
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
     def update_streak(self):
         if not self.studied_today:
