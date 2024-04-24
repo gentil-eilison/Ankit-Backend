@@ -23,7 +23,7 @@ urlpatterns = [
     path("users/", include("ankit_api.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path("auth/", include("drf_social_oauth2.urls", namespace="drf")),
+    #
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
