@@ -84,6 +84,9 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "simple_history",
+    "oauth2_provider",
+    "social_django",
+    "drf_social_oauth2",
 ]
 
 LOCAL_APPS = [
@@ -104,6 +107,8 @@ MIGRATION_MODULES = {"sites": "ankit_api.contrib.sites.migrations"}
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
+    "social_core.backends.google.GoogleOAuth2",
+    "drf_social_oauth2.backends.DjangoOAuth2",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
@@ -196,6 +201,8 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "ankit_api.users.context_processors.allauth_settings",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -350,3 +357,9 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env.str("CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env.str("CLIENT_SECRET")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+]
