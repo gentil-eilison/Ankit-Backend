@@ -1,8 +1,8 @@
 from django.conf import settings
+from django.urls import include
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
-from rest_framework_simplejwt import views
 
 from ankit_api.study_sessions.views import StudySessionViewSet
 from ankit_api.study_sessions.views import VocabularyBuilderView
@@ -22,6 +22,5 @@ urlpatterns += [
         VocabularyBuilderView.as_view(),
         name="vocabulary-builder",
     ),
-    path("token/", views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", views.TokenRefreshView.as_view(), name="token_refresh"),
+    path("dj_rest_auth/", include("dj_rest_auth.urls")),
 ]

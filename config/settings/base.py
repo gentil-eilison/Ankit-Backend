@@ -85,6 +85,8 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "simple_history",
     "rest_framework_simplejwt",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
 ]
 
 LOCAL_APPS = [
@@ -316,7 +318,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_ADAPTER = "ankit_api.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
@@ -352,3 +354,10 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+# dj-rest-auth
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "ankit-auth-token",
+    "JWT_AUTH_REFRESH_COOKIE": "ankit-refresh-token",
+    "JWT_AUTH_HTTPONLY": False,
+}
