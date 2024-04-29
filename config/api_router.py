@@ -6,6 +6,7 @@ from rest_framework.routers import SimpleRouter
 
 from ankit_api.study_sessions.views import StudySessionViewSet
 from ankit_api.study_sessions.views import VocabularyBuilderView
+from ankit_api.users.api.views import GoogleLogin
 from ankit_api.users.api.views import UserViewSet
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
@@ -23,4 +24,5 @@ urlpatterns += [
         name="vocabulary-builder",
     ),
     path("dj_rest_auth/", include("dj_rest_auth.urls")),
+    path("dj_rest_auth/google/", GoogleLogin.as_view(), name="google-login"),
 ]
