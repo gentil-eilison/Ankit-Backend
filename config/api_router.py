@@ -24,5 +24,6 @@ urlpatterns += [
         name="vocabulary-builder",
     ),
     path("dj_rest_auth/", include("dj_rest_auth.urls")),
+    path("dj_rest_auth/registration/", include("dj_rest_auth.registration.urls")),
     path("dj_rest_auth/google/", GoogleLogin.as_view(), name="google-login"),
 ]

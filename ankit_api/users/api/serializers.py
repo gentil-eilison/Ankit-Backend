@@ -7,14 +7,8 @@ class UserSerializer(serializers.ModelSerializer[User]):
     class Meta:
         model = User
         fields = [
-            "first_name",
-            "last_name",
             "url",
             "email",
-            "educational_level",
-            "streak",
-            "longest_streak",
-            "nationality",
         ]
 
         extra_kwargs = {
