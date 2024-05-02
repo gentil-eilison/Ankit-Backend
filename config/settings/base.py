@@ -361,4 +361,5 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE": "ankit-auth-token",
     "JWT_AUTH_REFRESH_COOKIE": "ankit-refresh-token",
     "JWT_AUTH_HTTPONLY": False,
+    "USER_DETAILS_SERIALIZER": "ankit_api.users.api.serializers.UserSerializer",
 }

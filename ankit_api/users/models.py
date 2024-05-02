@@ -69,8 +69,6 @@ class Student(TimeStampedModel):
         related_name="users",
         on_delete=models.PROTECT,
         verbose_name=_("Nationality"),
-        blank=True,
-        null=True,
     )
     studied_today = models.BooleanField(verbose_name=_("Studied today"), default=False)
     user = models.OneToOneField(
