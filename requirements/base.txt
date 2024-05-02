@@ -31,3 +31,6 @@ djangorestframework-simplejwt[crypto]==5.3.1
 
 # dj-rest-auth
 dj-rest-auth==6.0.0
+
+# drf-writable-nested
+drf-writable-nested==0.7.0

@@ -19,6 +19,7 @@ class UserViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet,
 ):
     serializer_class = serializers.UserSerializer
