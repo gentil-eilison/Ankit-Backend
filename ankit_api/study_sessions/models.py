@@ -65,7 +65,8 @@ class StudySession(TimeStampedModel):
 
     def __str__(self):
         return (
-            f"{self.language} session of {self.user.first_name} {self.user.last_name}"
+            f"{self.language} session of {self.user.student.first_name}"
+            f"{self.user.student.last_name}"
         )
 
     def add_flaschards_file(self, cards_data) -> None:
