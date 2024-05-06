@@ -40,4 +40,9 @@ urlpatterns += [
         dashboard_views.StudySessionCountByLanguageView.as_view(),
         name="study-sessions-by-language",
     ),
+    path(
+        "cards_added_by_language/",
+        dashboard_views.AddedCardsByLanguageView.as_view(),
+        name="cards-added-by-language",
+    ),
 ]

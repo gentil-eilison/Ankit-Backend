@@ -28,6 +28,11 @@ class Language(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def cards_added_count(self):
+        return self.study_sessions.aggregate(models.Sum("cards_added"))[
+            "cards_added__sum"
+        ]
+
 
 class StudySession(TimeStampedModel):
     duration_in_minutes = models.DurationField(
