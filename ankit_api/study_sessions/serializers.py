@@ -4,6 +4,25 @@ from .models import Language
 from .models import StudySession
 
 
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = ("id", "name", "icon")
+
+
+class StudySessionsByLanguageSerializer(serializers.ModelSerializer):
+    study_sessions_count = serializers.SerializerMethodField(
+        method_name="get_study_sessions_count",
+    )
+
+    class Meta:
+        model = Language
+        fields = ("id", "name", "icon", "study_sessions_count")
+
+    def get_study_sessions_count(self, language):
+        return language.study_sessions.count()
+
+
 class StudySessionSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
 
