@@ -1,3 +1,4 @@
+from datetime import timedelta
 from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
@@ -71,6 +72,10 @@ class Student(TimeStampedModel):
         verbose_name=_("Nationality"),
     )
     studied_today = models.BooleanField(verbose_name=_("Studied today"), default=False)
+    total_study_time = models.DurationField(
+        verbose_name=_("Total study time"),
+        default=timedelta(minutes=0),
+    )
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -91,3 +96,8 @@ class Student(TimeStampedModel):
             self.streak += 1
             self.studied_today = True
             self.save()
+
+    def update_total_study_time(self):
+        self.total_study_time = self.user.study_sessions.aggregate(
+            models.Sum("duration_in_minutes"),
+        )["duration_in_minutes__sum"]

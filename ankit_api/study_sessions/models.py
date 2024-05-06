@@ -96,3 +96,11 @@ class StudySession(TimeStampedModel):
             cards_count = sum(1 for row in reader)
             self.cards_added = cards_count
             self.save()
+
+    def finish(self, cards_data):
+        self.add_flaschards_file(cards_data)
+        self.update_duration()
+        self.update_cards_added()
+        self.user.student.update_streak()
+        self.user.student.update_total_study_time()
+        self.user.student.save()

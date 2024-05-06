@@ -66,10 +66,7 @@ class StudySessionViewSet(viewsets.ModelViewSet):
         if not study_session.csv_file:
             cards_serializer = AnkiCardSerializer(data=request.data, many=True)
             cards_serializer.is_valid(raise_exception=True)
-            study_session.add_flaschards_file(cards_serializer.validated_data)
-            study_session.update_duration()
-            study_session.update_cards_added()
-            study_session.user.student.update_streak()
+            study_session.finish(cards_data=cards_serializer.data)
             return Response(data={}, status=status.HTTP_200_OK)
         return Response(
             status=status.HTTP_400_BAD_REQUEST,
