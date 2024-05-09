@@ -19,7 +19,7 @@ from ankit_api.users.utils import user_directory_path
 class Language(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     icon = models.FileField(verbose_name=_("Icon"), blank=True)
-    history = simple_history_models.HistoricalRecords()
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     class Meta:
         verbose_name = _("Language")
@@ -50,7 +50,7 @@ class StudySession(TimeStampedModel):
         verbose_name=_("Spreadsheet file"),
         blank=True,
     )
-    language = models.ForeignKey(
+    language = simple_history_models.HistoricForeignKey(
         Language,
         related_name="study_sessions",
         on_delete=models.CASCADE,
@@ -62,7 +62,7 @@ class StudySession(TimeStampedModel):
         on_delete=models.CASCADE,
         verbose_name=_("User"),
     )
-    history = simple_history_models.HistoricalRecords()
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     class Meta:
         verbose_name = _("Study Session")

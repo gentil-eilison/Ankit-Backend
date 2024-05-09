@@ -14,7 +14,7 @@ from .managers import UserManager
 
 class Nationality(TimeStampedModel):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
-    history = simple_history_models.HistoricalRecords()
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     class Meta:
         verbose_name = _("Nationality")
@@ -35,7 +35,7 @@ class User(AbstractUser):
     name = models.CharField(_("Name of User"), blank=True, max_length=255)
     email = models.EmailField(_("email address"), unique=True)
     username = None  # type: ignore[assignment]
-    history = simple_history_models.HistoricalRecords()
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -77,12 +77,12 @@ class Student(TimeStampedModel):
         default=timedelta(minutes=0),
     )
     user = models.OneToOneField(
-        User,
+        to=User,
         on_delete=models.CASCADE,
         verbose_name=_("User"),
         related_name="student",
     )
-    history = simple_history_models.HistoricalRecords()
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     class Meta:
         verbose_name = _("Student")
