@@ -45,9 +45,4 @@ urlpatterns += [
         dashboard_views.AddedCardsByLanguageView.as_view(),
         name="cards-added-by-language",
     ),
-    path(
-        "teste-historico/",
-        dashboard_views.TesteDeFiltroHistorico.as_view(),
-        name="teste_historico",
-    ),
 ]
