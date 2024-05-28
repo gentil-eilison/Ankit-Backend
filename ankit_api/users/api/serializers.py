@@ -37,9 +37,3 @@ class UserSerializer(NestedUpdateMixin):
             "email",
             "student",
         ]
-
-
-class UserDashboardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = ("total_study_time",)

@@ -4,13 +4,11 @@ import pytz
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.generics import ListAPIView
-from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from ankit_api.study_sessions import serializers
 from ankit_api.study_sessions.api.filtersets import LanguageHistoricFilter
 from ankit_api.study_sessions.models import Language
-from ankit_api.users.models import Student
 
 User = get_user_model()
 
@@ -55,10 +53,3 @@ class AddedCardsByLanguageView(ListAPIView):
             .latest_of_each()
             .order_by("id")
         )
-
-
-class StudentStudyDataView(RetrieveAPIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Student.objects.filter(user=self.request.user)
