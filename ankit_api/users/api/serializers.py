@@ -22,6 +22,7 @@ class StudentReadSerializer(UniqueFieldsMixin, serializers.ModelSerializer[Stude
             "streak",
             "longest_streak",
             "nationality",
+            "total_study_time",
             "user",
         )
 
@@ -36,3 +37,9 @@ class UserSerializer(NestedUpdateMixin):
             "email",
             "student",
         ]
+
+
+class UserDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ("total_study_time",)

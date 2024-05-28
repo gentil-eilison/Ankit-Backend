@@ -34,3 +34,6 @@ dj-rest-auth==6.0.0
 
 # drf-writable-nested
 drf-writable-nested==0.7.0
+
+# django-filter
+django-filter==24.2
