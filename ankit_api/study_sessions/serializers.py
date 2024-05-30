@@ -4,6 +4,44 @@ from .models import Language
 from .models import StudySession
 
 
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = ("id", "name", "icon")
+
+
+class StudySessionsByLanguageSerializer(serializers.ModelSerializer):
+    study_sessions_count = serializers.SerializerMethodField(
+        method_name="get_study_sessions_count",
+    )
+    name = serializers.SerializerMethodField(method_name="get_name")
+
+    class Meta:
+        model = Language.history.model
+        fields = ("id", "name", "study_sessions_count")
+
+    def get_study_sessions_count(self, language):
+        return language.instance.study_sessions.count()
+
+    def get_name(self, language):
+        return Language.objects.get(id=language.id).name
+
+
+class CardsAddedByLanguageSerializer(serializers.ModelSerializer):
+    cards_added = serializers.SerializerMethodField(method_name="get_cards_added")
+    name = serializers.SerializerMethodField(method_name="get_name")
+
+    class Meta:
+        model = Language
+        fields = ("id", "name", "cards_added")
+
+    def get_cards_added(self, language):
+        return language.instance.cards_added_count()
+
+    def get_name(self, language):
+        return Language.objects.get(id=language.id).name
+
+
 class StudySessionSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
 

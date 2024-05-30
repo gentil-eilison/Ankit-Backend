@@ -18,7 +18,7 @@ from .serializers import VocabularyBuilderSerializer
 
 
 class VocabularyBuilderView(APIView):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         vocabulary_builder_serializer = VocabularyBuilderSerializer(data=request.data)
@@ -53,7 +53,7 @@ class VocabularyBuilderView(APIView):
 class StudySessionViewSet(viewsets.ModelViewSet):
     queryset = StudySession.objects.all()
     serializer_class = StudySessionSerializer
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
     http_method_names = ("get", "post", "delete")
 
     def perform_create(self, serializer):
@@ -66,10 +66,7 @@ class StudySessionViewSet(viewsets.ModelViewSet):
         if not study_session.csv_file:
             cards_serializer = AnkiCardSerializer(data=request.data, many=True)
             cards_serializer.is_valid(raise_exception=True)
-            study_session.add_flaschards_file(cards_serializer.validated_data)
-            study_session.update_duration()
-            study_session.update_cards_added()
-            study_session.user.update_streak()
+            study_session.finish(cards_data=cards_serializer.data)
             return Response(data={}, status=status.HTTP_200_OK)
         return Response(
             status=status.HTTP_400_BAD_REQUEST,

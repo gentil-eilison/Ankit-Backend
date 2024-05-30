@@ -22,6 +22,7 @@ class StudentReadSerializer(UniqueFieldsMixin, serializers.ModelSerializer[Stude
             "streak",
             "longest_streak",
             "nationality",
+            "total_study_time",
             "user",
         )
 

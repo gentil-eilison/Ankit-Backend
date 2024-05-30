@@ -7,6 +7,7 @@ from rest_framework.routers import SimpleRouter
 from ankit_api.study_sessions.views import StudySessionViewSet
 from ankit_api.study_sessions.views import VocabularyBuilderView
 from ankit_api.users.api import views as users_views
+from ankit_api.users.api.dashboard import views as dashboard_views
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 
@@ -33,5 +34,15 @@ urlpatterns += [
         "students/",
         users_views.StudentCreateListView.as_view(),
         name="student-create-list",
+    ),
+    path(
+        "study_sessions_by_language/",
+        dashboard_views.StudySessionCountByLanguageView.as_view(),
+        name="study-sessions-by-language",
+    ),
+    path(
+        "cards_added_by_language/",
+        dashboard_views.AddedCardsByLanguageView.as_view(),
+        name="cards-added-by-language",
     ),
 ]
