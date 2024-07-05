@@ -47,7 +47,24 @@ class StudentCreateListView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
+class CustomGoogleOAuth2Adapter(GoogleOAuth2Adapter):
+    def complete_login(self, request, app, token, response, **kwargs):
+        data = None
+        id_token = None
+        if id_token:
+            data = self._decode_id_token(app, id_token)
+            if self.fetch_userinfo and "picture" not in data:
+                info = self._fetch_user_info(token.token)
+                picture = info.get("picture")
+                if picture:
+                    data["picture"] = picture
+        else:
+            data = self._fetch_user_info(token.token)
+        login = self.get_provider().sociallogin_from_response(request, data)
+        return login
+
+
 class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
+    adapter_class = CustomGoogleOAuth2Adapter
     callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
     client_class = OAuth2Client
