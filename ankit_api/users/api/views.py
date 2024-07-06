@@ -1,7 +1,8 @@
 import environ
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView, SocialConnectView
+from dj_rest_auth.registration.views import SocialConnectView
+from dj_rest_auth.registration.views import SocialLoginView
 from rest_framework import mixins
 from rest_framework import status
 from rest_framework.decorators import action
@@ -60,8 +61,7 @@ class CustomGoogleOAuth2Adapter(GoogleOAuth2Adapter):
                     data["picture"] = picture
         else:
             data = self._fetch_user_info(token.token)
-        login = self.get_provider().sociallogin_from_response(request, data)
-        return login
+        return self.get_provider().sociallogin_from_response(request, data)
 
 
 class GoogleLogin(SocialLoginView):
@@ -74,4 +74,3 @@ class GoogleConnect(SocialConnectView):
     adapter_class = CustomGoogleOAuth2Adapter
     callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
     client_class = OAuth2Client
-    

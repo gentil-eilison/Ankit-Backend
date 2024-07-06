@@ -1,3 +1,4 @@
+from dj_rest_auth.registration.views import SocialAccountDisconnectView
 from django.conf import settings
 from django.urls import include
 from django.urls import path
@@ -34,6 +35,11 @@ urlpatterns += [
         "dj_rest_auth/google/connect/",
         users_views.GoogleConnect.as_view(),
         name="google-connect",
+    ),
+    path(
+        "dj_rest_auth/socialaccount/<int:pk>/disconnect/",
+        SocialAccountDisconnectView.as_view(),
+        name="social-account-disconnect",
     ),
     path(
         "students/",
