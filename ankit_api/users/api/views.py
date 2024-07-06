@@ -3,6 +3,7 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialConnectView
 from dj_rest_auth.registration.views import SocialLoginView
+from django.db.models.query import QuerySet
 from rest_framework import mixins
 from rest_framework import status
 from rest_framework.decorators import action
@@ -24,8 +25,11 @@ class UserViewSet(
     GenericViewSet,
 ):
     serializer_class = serializers.UserSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.none()
     lookup_field = "pk"
+
+    def get_queryset(self) -> QuerySet:
+        return User.objects.filter(id=self.request.user.id)
 
     @action(detail=False)
     def me(self, request):
