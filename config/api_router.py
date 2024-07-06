@@ -31,6 +31,11 @@ urlpatterns += [
         name="google-login",
     ),
     path(
+        "dj_rest_auth/google/connect/",
+        users_views.GoogleConnect.as_view(),
+        name="google-connect",
+    ),
+    path(
         "students/",
         users_views.StudentCreateListView.as_view(),
         name="student-create-list",

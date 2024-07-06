@@ -1,7 +1,7 @@
 import environ
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.registration.views import SocialLoginView, SocialConnectView
 from rest_framework import mixins
 from rest_framework import status
 from rest_framework.decorators import action
@@ -68,3 +68,10 @@ class GoogleLogin(SocialLoginView):
     adapter_class = CustomGoogleOAuth2Adapter
     callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
     client_class = OAuth2Client
+
+
+class GoogleConnect(SocialConnectView):
+    adapter_class = CustomGoogleOAuth2Adapter
+    callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
+    client_class = OAuth2Client
+    
