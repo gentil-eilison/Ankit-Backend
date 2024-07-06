@@ -19,8 +19,7 @@ from ankit_api.users.utils import user_directory_path
 class Language(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     icon = models.FileField(verbose_name=_("Icon"), blank=True)
-    history = simple_history_models.HistoricalRecords(
-        related_name="history_log")
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     class Meta:
         verbose_name = _("Language")
@@ -28,11 +27,6 @@ class Language(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
-    def cards_added_count(self):
-        return self.study_sessions.aggregate(models.Sum("cards_added"))[
-            "cards_added__sum"
-        ]
 
 
 class StudySession(TimeStampedModel):
@@ -64,8 +58,7 @@ class StudySession(TimeStampedModel):
         on_delete=models.CASCADE,
         verbose_name=_("User"),
     )
-    history = simple_history_models.HistoricalRecords(
-        related_name="history_log")
+    history = simple_history_models.HistoricalRecords(related_name="history_log")
 
     class Meta:
         verbose_name = _("Study Session")
@@ -79,8 +72,7 @@ class StudySession(TimeStampedModel):
 
     def add_flaschards_file(self, cards_data) -> None:
         csv_maker = FlashCardsCSVMaker(
-            [AnkiCard(front=card["front"], back=card["back"])
-             for card in cards_data],
+            [AnkiCard(front=card["front"], back=card["back"]) for card in cards_data],
         )
         csv_maker.generate_csv()
         path = Path(csv_maker.filename)

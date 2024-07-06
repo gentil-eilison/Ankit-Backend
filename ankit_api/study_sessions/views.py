@@ -1,6 +1,5 @@
 from operator import itemgetter
 
-from django.contrib.auth import get_user_model
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
@@ -51,14 +50,16 @@ class VocabularyBuilderView(APIView):
 
 
 class StudySessionViewSet(viewsets.ModelViewSet):
-    queryset = StudySession.objects.all()
+    queryset = StudySession.objects.none()
     serializer_class = StudySessionSerializer
     permission_classes = (permissions.IsAuthenticated,)
     http_method_names = ("get", "post", "delete")
 
+    def get_queryset(self, *args, **kwargs):
+        return StudySession.objects.filter(user=self.request.user)
+
     def perform_create(self, serializer):
-        user_model = get_user_model()
-        serializer.save(user=user_model.objects.first())
+        serializer.save(user=self.request.user)
 
     @action(methods=["post"], detail=True)
     def finish(self, request, pk=None):
