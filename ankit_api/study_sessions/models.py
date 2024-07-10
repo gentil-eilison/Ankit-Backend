@@ -65,10 +65,7 @@ class StudySession(TimeStampedModel):
         verbose_name_plural = _("Study Sessions")
 
     def __str__(self):
-        return (
-            f"{self.language} session of {self.user.student.first_name}"
-            f"{self.user.student.last_name}"
-        )
+        return f"{self.language} session of {self.user.email}"
 
     def add_flaschards_file(self, cards_data) -> None:
         csv_maker = FlashCardsCSVMaker(
