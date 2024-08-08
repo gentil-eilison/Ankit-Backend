@@ -25,7 +25,11 @@ urlpatterns += [
         name="vocabulary-builder",
     ),
     path("dj_rest_auth/", include("dj_rest_auth.urls")),
-    path("dj_rest_auth/registration/", include("dj_rest_auth.registration.urls")),
+    path(
+        "dj_rest_auth/registration/",
+        users_views.AnkitSignUpView.as_view(),
+        name="dj-rest-auth-registration",
+    ),
     path(
         "dj_rest_auth/google/",
         users_views.GoogleLogin.as_view(),

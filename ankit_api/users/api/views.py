@@ -1,8 +1,10 @@
 import environ
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.registration.views import SocialConnectView
 from dj_rest_auth.registration.views import SocialLoginView
+from django.db import IntegrityError
 from django.db.models.query import QuerySet
 from rest_framework import mixins
 from rest_framework import status
@@ -38,6 +40,17 @@ class UserViewSet(
             context={"request": request},
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class AnkitSignUpView(RegisterView):
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except IntegrityError:
+            return Response(
+                {"data": "Já existe um usuário com esse e-mail"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class StudentCreateListView(ListCreateAPIView):

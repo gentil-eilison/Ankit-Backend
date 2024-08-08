@@ -25,7 +25,7 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # In Windows, this must be set to your system time zone.
 TIME_ZONE = "America/Fortaleza"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "pt-BR"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 # from django.utils.translation import gettext_lazy as _
 # LANGUAGES = [
@@ -345,6 +345,11 @@ REST_FRAMEWORK = {
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
 
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
