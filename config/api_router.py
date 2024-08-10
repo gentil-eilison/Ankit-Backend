@@ -60,4 +60,9 @@ urlpatterns += [
         dashboard_views.AddedCardsByLanguageView.as_view(),
         name="cards-added-by-language",
     ),
+    path(
+        "nationalities/",
+        users_views.NationalityListView.as_view(),
+        name="nationality-list"
+    )
 ]

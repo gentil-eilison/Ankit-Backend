@@ -9,12 +9,12 @@ from django.db.models.query import QuerySet
 from rest_framework import mixins
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from rest_framework import permissions
 
-from ankit_api.users.models import Student
-from ankit_api.users.models import User
+from ankit_api.users.models import Student, User, Nationality
 
 from . import serializers
 
@@ -91,3 +91,9 @@ class GoogleConnect(SocialConnectView):
     adapter_class = CustomGoogleOAuth2Adapter
     callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
     client_class = OAuth2Client
+
+
+class NationalityListView(ListAPIView):
+    queryset = Nationality.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = serializers.NationalitySerializer

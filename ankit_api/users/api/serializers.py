@@ -2,8 +2,7 @@ from drf_writable_nested.mixins import UniqueFieldsMixin
 from drf_writable_nested.serializers import NestedUpdateMixin
 from rest_framework import serializers
 
-from ankit_api.users.models import Student
-from ankit_api.users.models import User
+from ankit_api.users.models import Student, User, Nationality
 
 
 class StudentSerializer(serializers.ModelSerializer[Student]):
@@ -37,3 +36,9 @@ class UserSerializer(NestedUpdateMixin):
             "email",
             "student",
         ]
+
+
+class NationalitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Nationality
+        fields = ("id", "name")
