@@ -1,6 +1,7 @@
 # ruff: noqa: ERA001, E501
 """Base settings to build other settings files upon."""
 
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -370,4 +371,10 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED": False,
     "JWT_AUTH_COOKIE_USE_CSRF": False,
     "USER_DETAILS_SERIALIZER": "ankit_api.users.api.serializers.UserSerializer",
+}
+
+# dj-simple-jwt
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
 }

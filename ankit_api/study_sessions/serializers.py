@@ -67,7 +67,7 @@ class StudySessionSerializer(serializers.ModelSerializer):
 
 
 class StudySessionReadSerializer(serializers.ModelSerializer):
-    language = serializers.CharField(source="language__name")
+    language = serializers.CharField(source="language.name")
 
     class Meta:
         model = StudySession
