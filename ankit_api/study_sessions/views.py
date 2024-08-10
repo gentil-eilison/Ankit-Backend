@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.serializers import BaseSerializer
 from rest_framework.views import APIView
 
 from ankit_api.chatgpt import ChatGPT
@@ -12,6 +13,7 @@ from ankit_api.study_sessions.models import Language
 
 from .models import StudySession
 from .serializers import AnkiCardSerializer
+from .serializers import StudySessionReadSerializer
 from .serializers import StudySessionSerializer
 from .serializers import VocabularyBuilderSerializer
 
@@ -60,6 +62,11 @@ class StudySessionViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_serializer_class(self) -> type[BaseSerializer]:
+        if self.request.method == "GET":
+            return StudySessionReadSerializer
+        return super().get_serializer_class()
 
     @action(methods=["post"], detail=True)
     def finish(self, request, pk=None):

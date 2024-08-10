@@ -57,6 +57,23 @@ class StudySessionSerializer(serializers.ModelSerializer):
         model = StudySession
         fields = (
             "id",
+            "name",
+            "duration_in_minutes",
+            "cards_added",
+            "csv_file",
+            "language",
+            "user",
+        )
+
+
+class StudySessionReadSerializer(serializers.ModelSerializer):
+    language = serializers.CharField(source="language__name")
+
+    class Meta:
+        model = StudySession
+        fields = (
+            "id",
+            "name",
             "duration_in_minutes",
             "cards_added",
             "csv_file",
