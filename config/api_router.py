@@ -52,6 +52,11 @@ urlpatterns += [
         name="student-create-list",
     ),
     path(
+        "students/<int:pk>/",
+        users_views.StudentUpdateView.as_view(),
+        name="student-update",
+    ),
+    path(
         "study_sessions_by_language/",
         dashboard_views.StudySessionCountByLanguageView.as_view(),
         name="study-sessions-by-language",

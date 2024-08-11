@@ -7,14 +7,18 @@ from dj_rest_auth.registration.views import SocialLoginView
 from django.db import IntegrityError
 from django.db.models.query import QuerySet
 from rest_framework import mixins
+from rest_framework import permissions
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from rest_framework import permissions
 
-from ankit_api.users.models import Student, User, Nationality
+from ankit_api.users.models import Nationality
+from ankit_api.users.models import Student
+from ankit_api.users.models import User
 
 from . import serializers
 
@@ -63,6 +67,12 @@ class StudentCreateListView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class StudentUpdateView(UpdateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = serializers.StudentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class CustomGoogleOAuth2Adapter(GoogleOAuth2Adapter):

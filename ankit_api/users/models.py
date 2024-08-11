@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from simple_history import models as simple_history_models
 
 from ankit_api.core.models import TimeStampedModel
+from ankit_api.utils.upload_to_funcs import user_directory_path
 
 from .managers import UserManager
 
@@ -81,6 +82,11 @@ class Student(TimeStampedModel):
         on_delete=models.CASCADE,
         verbose_name=_("User"),
         related_name="student",
+    )
+    profile_picture = models.ImageField(
+        verbose_name=_("Profile picture"),
+        upload_to=user_directory_path,
+        blank=True,
     )
     history = simple_history_models.HistoricalRecords(related_name="history_log")
 
