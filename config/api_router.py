@@ -5,6 +5,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
+from ankit_api.study_sessions.views import LanguagesListView
 from ankit_api.study_sessions.views import StudySessionViewSet
 from ankit_api.study_sessions.views import VocabularyBuilderView
 from ankit_api.users.api import views as users_views
@@ -63,6 +64,7 @@ urlpatterns += [
     path(
         "nationalities/",
         users_views.NationalityListView.as_view(),
-        name="nationality-list"
-    )
+        name="nationality-list",
+    ),
+    path("languages/", LanguagesListView.as_view(), name="languages-list"),
 ]

@@ -4,15 +4,17 @@ from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.serializers import BaseSerializer
 from rest_framework.views import APIView
 
 from ankit_api.chatgpt import ChatGPT
-from ankit_api.study_sessions.models import Language
 
+from .models import Language
 from .models import StudySession
 from .serializers import AnkiCardSerializer
+from .serializers import LanguageSerializer
 from .serializers import StudySessionReadSerializer
 from .serializers import StudySessionSerializer
 from .serializers import VocabularyBuilderSerializer
@@ -80,3 +82,9 @@ class StudySessionViewSet(viewsets.ModelViewSet):
             status=status.HTTP_400_BAD_REQUEST,
             data={"error": "Study session already finished"},
         )
+
+
+class LanguagesListView(ListAPIView):
+    queryset = Language.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = LanguageSerializer
