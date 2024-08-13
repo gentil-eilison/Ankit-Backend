@@ -57,6 +57,11 @@ urlpatterns += [
         name="student-update",
     ),
     path(
+        "students/<int:pk>/remove_profile_pic/",
+        users_views.RemoveStudentProfilePictureView.as_view(),
+        name="remove-students-profile-picture",
+    ),
+    path(
         "study_sessions_by_language/",
         dashboard_views.StudySessionCountByLanguageView.as_view(),
         name="study-sessions-by-language",

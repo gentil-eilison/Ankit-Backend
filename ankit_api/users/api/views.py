@@ -75,6 +75,17 @@ class StudentUpdateView(UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
 
+class RemoveStudentProfilePictureView(UpdateAPIView):
+    queryset = Student.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def update(self, request, *args, **kwargs):
+        student = self.get_object()
+        student.profile_picture = ""
+        student.save()
+        return Response(data={}, status=status.HTTP_200_OK)
+
+
 class CustomGoogleOAuth2Adapter(GoogleOAuth2Adapter):
     def complete_login(self, request, app, token, response, **kwargs):
         data = None
