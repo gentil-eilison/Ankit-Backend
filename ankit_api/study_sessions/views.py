@@ -1,6 +1,6 @@
 from operator import itemgetter
 
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import pagination
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
@@ -59,8 +59,8 @@ class StudySessionViewSet(viewsets.ModelViewSet):
     queryset = StudySession.objects.none()
     serializer_class = StudySessionSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    filter_backends = (DjangoFilterBackend,)
     filterset_class = filtersets.StudySessionFilter
+    pagination_class = pagination.PageNumberPagination
     http_method_names = ("get", "post", "delete")
 
     def get_queryset(self, *args, **kwargs):
