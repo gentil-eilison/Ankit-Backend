@@ -1,6 +1,7 @@
 from django_filters import rest_framework as filters
 
 from ankit_api.study_sessions.models import Language
+from ankit_api.study_sessions.models import StudySession
 
 
 class LanguageHistoricFilter(filters.FilterSet):
@@ -23,3 +24,11 @@ class LanguageHistoricFilter(filters.FilterSet):
         elif not history_after and history_before:
             lookup[f"{name}__lte"] = history_before
         return queryset.filter(**lookup).latest_of_each()
+
+
+class StudySessionFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name="name", lookup_expr="icontains")
+
+    class Meta:
+        model = StudySession
+        fields = ("language",)

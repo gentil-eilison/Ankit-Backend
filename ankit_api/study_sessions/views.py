@@ -1,5 +1,6 @@
 from operator import itemgetter
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
@@ -11,6 +12,7 @@ from rest_framework.views import APIView
 
 from ankit_api.chatgpt import ChatGPT
 
+from .api import filtersets
 from .models import Language
 from .models import StudySession
 from .serializers import AnkiCardSerializer
@@ -57,6 +59,8 @@ class StudySessionViewSet(viewsets.ModelViewSet):
     queryset = StudySession.objects.none()
     serializer_class = StudySessionSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = filtersets.StudySessionFilter
     http_method_names = ("get", "post", "delete")
 
     def get_queryset(self, *args, **kwargs):
