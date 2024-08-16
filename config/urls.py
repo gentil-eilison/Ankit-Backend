@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
-from django.urls import path
+from django.urls import path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView
@@ -23,7 +23,11 @@ urlpatterns = [
     path("users/", include("ankit_api.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    #
+    re_path(
+        r"^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$",
+        TemplateView.as_view(template_name="password_reset_confirm.html"),
+        name="password_reset_confirm",
+    ),  # needed here and not in api_router because dj_rest_auth won't find the name otherwise
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

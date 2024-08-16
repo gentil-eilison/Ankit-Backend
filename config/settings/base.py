@@ -236,6 +236,11 @@ EMAIL_BACKEND = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -372,6 +377,8 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED": False,
     "JWT_AUTH_COOKIE_USE_CSRF": False,
     "USER_DETAILS_SERIALIZER": "ankit_api.users.api.serializers.UserSerializer",
+    "PASSWORD_RESET_USE_SITES_DOMAIN": False,
+    "PASSWORD_RESET_SERIALIZER": "ankit_api.core.api.serializers.AnkitPasswordResetSerializer",
 }
 
 # dj-simple-jwt
