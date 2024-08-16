@@ -379,6 +379,7 @@ REST_AUTH = {
     "USER_DETAILS_SERIALIZER": "ankit_api.users.api.serializers.UserSerializer",
     "PASSWORD_RESET_USE_SITES_DOMAIN": False,
     "PASSWORD_RESET_SERIALIZER": "ankit_api.core.api.serializers.AnkitPasswordResetSerializer",
+    "PASSWORD_RESET_CONFIRM_SERIALIZER": "ankit_api.core.api.serializers.AnkitPasswordConfirmResetSerializer",
 }
 
 # dj-simple-jwt
