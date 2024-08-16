@@ -1,9 +1,10 @@
 from dj_rest_auth.serializers import PasswordResetConfirmSerializer
 from dj_rest_auth.serializers import PasswordResetSerializer
-from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework import exceptions
 from rest_framework import serializers
+
+from ankit_api.users.forms import AnkitPasswordResetForm
 
 
 class AnkitPasswordConfirmResetSerializer(PasswordResetConfirmSerializer):
@@ -41,7 +42,7 @@ class AnkitPasswordConfirmResetSerializer(PasswordResetConfirmSerializer):
 class AnkitPasswordResetSerializer(PasswordResetSerializer):
     @property
     def password_reset_form_class(self):
-        return PasswordResetForm
+        return AnkitPasswordResetForm
 
     # Override necessary both to change email sent and set the token generator
     # to Django's one and not allauth's
