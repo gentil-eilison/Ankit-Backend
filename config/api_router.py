@@ -1,4 +1,5 @@
 from dj_rest_auth.registration.views import SocialAccountDisconnectView
+from dj_rest_auth.registration.views import SocialAccountListView
 from django.conf import settings
 from django.urls import include
 from django.urls import path
@@ -45,6 +46,11 @@ urlpatterns += [
         "dj_rest_auth/socialaccount/<int:pk>/disconnect/",
         SocialAccountDisconnectView.as_view(),
         name="social-account-disconnect",
+    ),
+    path(
+        "dj_rest_auth/socialaccounts/",
+        SocialAccountListView.as_view(),
+        name="social-accounts-list-view",
     ),
     path(
         "students/",

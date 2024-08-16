@@ -110,7 +110,7 @@ class GoogleLogin(SocialLoginView):
 
 class GoogleConnect(SocialConnectView):
     adapter_class = CustomGoogleOAuth2Adapter
-    callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
+    callback_url = environ.Env().str("GOOGLE_APP_CONNECT_CALLBACK_URL")
     client_class = OAuth2Client
 
 

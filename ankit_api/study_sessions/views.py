@@ -1,5 +1,6 @@
 from operator import itemgetter
 
+from drf_spectacular.utils import extend_schema
 from rest_framework import pagination
 from rest_framework import permissions
 from rest_framework import status
@@ -25,6 +26,10 @@ from .serializers import VocabularyBuilderSerializer
 class VocabularyBuilderView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
+    @extend_schema(
+        request=VocabularyBuilderSerializer,
+        responses={200: AnkiCardSerializer(many=True)},
+    )
     def post(self, request, *args, **kwargs):
         vocabulary_builder_serializer = VocabularyBuilderSerializer(data=request.data)
         if vocabulary_builder_serializer.is_valid():
