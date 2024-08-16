@@ -359,7 +359,7 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "ankit_api API",
     "DESCRIPTION": "Documentation of API endpoints of ankit_api",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
