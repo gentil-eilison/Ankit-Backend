@@ -1,4 +1,3 @@
-from django.db.models import Sum
 from rest_framework import serializers
 
 from .models import Language
@@ -32,22 +31,13 @@ class StudySessionsByLanguageSerializer(serializers.ModelSerializer):
 
 class CardsAddedByLanguageSerializer(serializers.ModelSerializer):
     cards_added = serializers.SerializerMethodField(method_name="get_cards_added")
-    name = serializers.SerializerMethodField(method_name="get_name")
+
+    def get_cards_added(self, language):
+        return language.cards_added or 0
 
     class Meta:
         model = Language
-        fields = ("id", "name", "cards_added")
-
-    def get_cards_added(self, language):
-        return (
-            language.instance.study_sessions.filter(
-                user=self.context["request"].user,
-            ).aggregate(Sum("cards_added"))["cards_added__sum"]
-            or 0
-        )
-
-    def get_name(self, language):
-        return Language.objects.get(id=language.id).name
+        fields = ("id", "name", "icon", "cards_added")
 
 
 class StudySessionSerializer(serializers.ModelSerializer):

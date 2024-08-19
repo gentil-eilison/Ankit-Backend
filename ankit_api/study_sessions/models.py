@@ -15,6 +15,8 @@ from ankit_api.study_sessions.classes.anki_card import AnkiCard
 from ankit_api.study_sessions.classes.csv_maker import FlashCardsCSVMaker
 from ankit_api.users.utils import user_directory_path
 
+from . import querysets
+
 
 class Language(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
@@ -59,6 +61,7 @@ class StudySession(TimeStampedModel):
         verbose_name=_("User"),
     )
     history = simple_history_models.HistoricalRecords(related_name="history_log")
+    objects = querysets.StudySessionQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Study Session")
