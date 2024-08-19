@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import BaseSerializer
 from rest_framework.views import APIView
 
-from ankit_api.chatgpt import ChatGPT
+from ankit_api.study_sessions.classes.chatgpt import ChatGPT
 
 from .api import filtersets
 from .models import Language
@@ -87,8 +87,6 @@ class StudySessionViewSet(viewsets.ModelViewSet):
     @action(methods=["post"], detail=True)
     def finish(self, request, pk=None):
         study_session: StudySession = self.get_object()
-        print("olha essa porra aqui")
-        print(study_session.csv_file)
         if not study_session.csv_file:
             cards_serializer = AnkiCardSerializer(data=request.data, many=True)
             cards_serializer.is_valid(raise_exception=True)

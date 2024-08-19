@@ -1,4 +1,3 @@
-from django.db.models import Sum
 from rest_framework import serializers
 
 from .models import Language
@@ -15,40 +14,24 @@ class StudySessionsByLanguageSerializer(serializers.ModelSerializer):
     study_sessions_count = serializers.SerializerMethodField(
         method_name="get_study_sessions_count",
     )
-    name = serializers.SerializerMethodField(method_name="get_name")
 
     class Meta:
-        model = Language.history.model
-        fields = ("id", "name", "study_sessions_count", "icon")
+        model = Language
+        fields = ("id", "name", "icon", "study_sessions_count")
 
     def get_study_sessions_count(self, language):
-        return language.instance.study_sessions.filter(
-            user=self.context["request"].user,
-        ).count()
-
-    def get_name(self, language):
-        return Language.objects.get(id=language.id).name
+        return language.study_sessions_count or 0
 
 
 class CardsAddedByLanguageSerializer(serializers.ModelSerializer):
     cards_added = serializers.SerializerMethodField(method_name="get_cards_added")
-    name = serializers.SerializerMethodField(method_name="get_name")
-
-    class Meta:
-        model = Language.history.model
-        fields = ("id", "name", "cards_added", "icon")
 
     def get_cards_added(self, language):
-        print(language.history_date)
-        return (
-            language.instance.study_sessions.filter(
-                user=self.context["request"].user,
-            ).aggregate(Sum("cards_added"))["cards_added__sum"]
-            or 0
-        )
+        return language.cards_added or 0
 
-    def get_name(self, language):
-        return Language.objects.get(id=language.id).name
+    class Meta:
+        model = Language
+        fields = ("id", "name", "icon", "cards_added")
 
 
 class StudySessionSerializer(serializers.ModelSerializer):
