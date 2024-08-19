@@ -1,17 +1,13 @@
 import datetime
 
-import pytz
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from rest_framework import status
 from rest_framework import views
-from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ankit_api.study_sessions import serializers
-from ankit_api.study_sessions.api.filtersets import StudySessionHistoricFilter
 from ankit_api.study_sessions.models import Language
 
 User = get_user_model()
@@ -27,6 +23,11 @@ class HistoricalDataByLanguageView(views.APIView):
         date_before = self.request.query_params.get("date_before")
 
         date_range_query_filter = None
+
+        if not date_before and not date_from:
+            return models.Q(
+                study_sessions__user=self.request.user,
+            )
 
         if date_from:
             date_from = datetime.datetime.fromisoformat(date_from)
@@ -60,24 +61,14 @@ class HistoricalDataByLanguageView(views.APIView):
         return Response(data=languages_serializer.data, status=status.HTTP_200_OK)
 
 
-class StudySessionCountByLanguageView(ListAPIView):
+class StudySessionCountByLanguageView(HistoricalDataByLanguageView):
     permission_classes = (IsAuthenticated,)
     serializer_class = serializers.StudySessionsByLanguageSerializer
-    filterset_class = StudySessionHistoricFilter
+    annotate_name = "study_sessions_count"
 
-    def get_queryset(self):
-        history_before = self.request.query_params.get("history_date_before", None)
-        history_after = self.request.query_params.get("history_date_after", None)
-        if history_before or history_after:
-            return Language.history.all().order_by("id")
-        return (
-            Language.history.filter(
-                history_date__date__lte=datetime.datetime.now(
-                    tz=pytz.timezone(settings.TIME_ZONE),
-                ),
-            )
-            .latest_of_each()
-            .order_by("id")
+    def _get_annotate_expression(self):
+        return models.Count(
+            "study_sessions",
         )
 
 

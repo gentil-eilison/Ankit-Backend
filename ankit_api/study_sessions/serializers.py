@@ -14,19 +14,13 @@ class StudySessionsByLanguageSerializer(serializers.ModelSerializer):
     study_sessions_count = serializers.SerializerMethodField(
         method_name="get_study_sessions_count",
     )
-    name = serializers.SerializerMethodField(method_name="get_name")
 
     class Meta:
-        model = Language.history.model
-        fields = ("id", "name", "study_sessions_count")
+        model = Language
+        fields = ("id", "name", "icon", "study_sessions_count")
 
     def get_study_sessions_count(self, language):
-        return language.instance.study_sessions.filter(
-            user=self.context["request"].user,
-        ).count()
-
-    def get_name(self, language):
-        return Language.objects.get(id=language.id).name
+        return language.study_sessions_count or 0
 
 
 class CardsAddedByLanguageSerializer(serializers.ModelSerializer):
