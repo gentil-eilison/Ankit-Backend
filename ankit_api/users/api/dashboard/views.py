@@ -57,7 +57,7 @@ class HistoricalDataByLanguageView(views.APIView):
         annotate_expression.filter = self._get_date_range_filter()
         annotate = {self.annotate_name: annotate_expression}
         languages = self.queryset.annotate(**annotate)
-        languages_serializer = self.serializer_class(instance=languages, many=True)
+        languages_serializer = self.serializer_class(instance=languages, many=True, context={"request": self.request})
         return Response(data=languages_serializer.data, status=status.HTTP_200_OK)
 
 
