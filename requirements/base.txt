@@ -37,3 +37,6 @@ drf-writable-nested==0.7.0
 
 # django-filter
 django-filter==24.2
+
+# django-admin-rangefilter
+django-admin-rangefilter==0.13.1

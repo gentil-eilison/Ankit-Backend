@@ -3,6 +3,9 @@ from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
+from simple_history.admin import SimpleHistoryAdmin
+
+from ankit_api.core.admin import ModelLogAdmin
 
 from .forms import UserAdminChangeForm
 from .forms import UserAdminCreationForm
@@ -51,5 +54,23 @@ class UserAdmin(auth_admin.UserAdmin):
     )
 
 
-admin.site.register(Student)
+@admin.register(Student)
+class StudentHistoryAdmin(SimpleHistoryAdmin):
+    list_display = [
+        "id",
+        "first_name",
+        "last_name",
+        "educational_level",
+        "nationality",
+        "profile_picture",
+    ]
+    history_list_display = ["status"]
+    search_fields = ["first_name"]
+
+
+class StudentLogAdmin(ModelLogAdmin):
+    search_fields = ["first_name"]
+
+
+admin.site.register(Student.history.model, StudentLogAdmin)
 admin.site.register(Nationality)
