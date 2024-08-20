@@ -20,10 +20,9 @@ class ChatGPT:
         self.__card_types: dict[str] = {
             "basic": "a tradução da frase que está na frente para o português",
             "intermediate": "a palavra a qual foi solicitada a tradução, seguido de sua"
-            "tradução, nessa estrutura: palavra: tradução da palavra",
+            "tradução, na estrutura do seguinte exemplo: ball: bola.",
             "advanced": "a palavra a qual foi solicitada a tradução, seguido de sua"
-            "definição no idioma, na seguinte estrutura: palavra: significado da"
-            "palavra em",
+            "definição na estrutura do seguinte exemplo: ball: a round object used for throwing, hitting or kicking in games and sports.",
         }
 
     def __set_model(self, model: str) -> str:
