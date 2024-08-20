@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from simple_history.admin import SimpleHistoryAdmin
@@ -20,7 +19,7 @@ if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
 
 
 @admin.register(User)
-class UserAdmin(auth_admin.UserAdmin):
+class UserHistoryAdmin(SimpleHistoryAdmin):
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
     fieldsets = (
@@ -52,6 +51,12 @@ class UserAdmin(auth_admin.UserAdmin):
             },
         ),
     )
+    history_list_display = ["history_type"]
+
+
+@admin.register(User.history.model)
+class UserLogAdmin(ModelLogAdmin):
+    search_fields = ["email"]
 
 
 @admin.register(Student)
@@ -64,13 +69,21 @@ class StudentHistoryAdmin(SimpleHistoryAdmin):
         "nationality",
         "profile_picture",
     ]
-    history_list_display = ["status"]
+    history_list_display = ["history_type"]
     search_fields = ["first_name"]
 
 
+@admin.register(Student.history.model)
 class StudentLogAdmin(ModelLogAdmin):
     search_fields = ["first_name"]
 
 
-admin.site.register(Student.history.model, StudentLogAdmin)
-admin.site.register(Nationality)
+@admin.register(Nationality)
+class NationalityHistoryAdmin(SimpleHistoryAdmin):
+    search_fields = ["name"]
+    history_list_display = ["history_type"]
+
+
+@admin.register(Nationality.history.model)
+class NationalityLogAdmin(ModelLogAdmin):
+    search_fields = ["name"]

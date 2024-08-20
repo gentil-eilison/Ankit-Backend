@@ -10,8 +10,10 @@ from .models import StudySession
 @admin.register(StudySession)
 class StudySessionHistoryAdmin(SimpleHistoryAdmin):
     search_fields = ["name"]
+    history_list_display = ["history_type"]
 
 
+@admin.register(StudySession.history.model)
 class StudySessionLogAdmin(ModelLogAdmin):
     search_fields = ["name"]
     list_filter = [
@@ -22,12 +24,9 @@ class StudySessionLogAdmin(ModelLogAdmin):
 @admin.register(Language)
 class LanguageHistoryAdmin(SimpleHistoryAdmin):
     search_fields = ["name"]
+    history_list_display = ["history_type"]
 
 
+@admin.register(Language.history.model)
 class LanguageLogAdmin(ModelLogAdmin):
     search_fields = ["name"]
-
-
-admin.site.register(StudySession.history.model, StudySessionLogAdmin)
-
-admin.site.register(Language.history.model, LanguageLogAdmin)
