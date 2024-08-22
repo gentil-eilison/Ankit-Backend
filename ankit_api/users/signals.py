@@ -1,22 +1,14 @@
+from django.apps import apps
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
-from simple_history.signals import pre_create_historical_record
-
-from ankit_api.core.models import get_sentinel_user
-
-from .models import Student
-
-User = get_user_model()
 
 
-@receiver(signal=pre_create_historical_record, sender=Student.history.model)
-def set_historical_student_history_user(instance, *args, **kwargs):
-    history_instance = kwargs.get("history_instance")
-    history_instance.history_user = get_sentinel_user()
+@receiver(signal=post_delete, sender=get_user_model())
+def set_history_user_to_null_on_user_deletion(sender, instance, **kwargs):
+    historical_models = [
+        model for model in apps.get_models() if hasattr(model, "history_user")
+    ]
 
-
-@receiver(signal=pre_create_historical_record, sender=User.history.model)
-def clean_historical_user_history_user(instance, *args, **kwargs):
-    instance.history.all().update(history_user=get_sentinel_user())
-    history_instance = kwargs.get("history_instance")
-    history_instance.history_user = get_sentinel_user()
+    for historical_model in historical_models:
+        historical_model.objects.filter(history_user=instance).update(history_user=None)

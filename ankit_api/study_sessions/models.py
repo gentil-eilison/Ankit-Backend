@@ -15,6 +15,7 @@ from ankit_api.study_sessions.classes.anki_card import AnkiCard
 from ankit_api.study_sessions.classes.csv_maker import FlashCardsCSVMaker
 from ankit_api.users.utils import user_directory_path
 
+from . import historical_records
 from . import querysets
 
 
@@ -60,7 +61,9 @@ class StudySession(TimeStampedModel):
         on_delete=models.CASCADE,
         verbose_name=_("User"),
     )
-    history = simple_history_models.HistoricalRecords(related_name="history_log")
+    history = historical_records.StudySessionHistoricalRecords(
+        related_name="history_log",
+    )
     objects = querysets.StudySessionQuerySet.as_manager()
 
     class Meta:
@@ -68,7 +71,7 @@ class StudySession(TimeStampedModel):
         verbose_name_plural = _("Study Sessions")
 
     def __str__(self):
-        return f"{self.language} session of {self.user.email}"
+        return f"{self.name} - {self.language} session of {self.user}"
 
     def add_flaschards_file(self, cards_data) -> None:
         csv_maker = FlashCardsCSVMaker(
