@@ -90,7 +90,7 @@ THIRD_PARTY_APPS = [
     "dj_rest_auth.registration",
     "django_filters",
     "rangefilter",
-    'dbbackup',
+    "dbbackup",
 ]
 
 LOCAL_APPS = [
@@ -393,3 +393,4 @@ SIMPLE_JWT = {
 #django-dbbackup
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backups'}
+SERVER_EMAIL = "fernandes.gentilalysonjac@gmail.com"

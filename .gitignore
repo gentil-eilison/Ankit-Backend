@@ -278,3 +278,6 @@ ankit_api/media/
 .ipython/
 .env
 .envs/*
+
+### Backup folder
+backups
