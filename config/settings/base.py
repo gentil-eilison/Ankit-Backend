@@ -391,6 +391,6 @@ SIMPLE_JWT = {
 }
 
 #django-dbbackup
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE = env('DBBACKUP_STORAGE', default='django.core.files.storage.FileSystemStorage') 
 DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backups'}
-SERVER_EMAIL = "fernandes.gentilalysonjac@gmail.com"
+SERVER_EMAIL = env('SERVER_EMAIL')
