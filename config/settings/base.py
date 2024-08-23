@@ -90,6 +90,7 @@ THIRD_PARTY_APPS = [
     "dj_rest_auth.registration",
     "django_filters",
     "rangefilter",
+    "dbbackup",
 ]
 
 LOCAL_APPS = [
@@ -388,3 +389,8 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
 }
+
+#django-dbbackup
+DBBACKUP_STORAGE = env('DBBACKUP_STORAGE', default='django.core.files.storage.FileSystemStorage') 
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backups'}
+SERVER_EMAIL = env('SERVER_EMAIL')
