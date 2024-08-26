@@ -22,7 +22,8 @@ class ChatGPT:
             "intermediate": "a palavra a qual foi solicitada a tradução, seguido de sua"
             "tradução, na estrutura do seguinte exemplo: ball: bola.",
             "advanced": "a palavra a qual foi solicitada a tradução, seguido de sua"
-            "definição na estrutura do seguinte exemplo: ball: a round object used for throwing, hitting or kicking in games and sports.",
+            "definição na estrutura do seguinte exemplo: ball: a round object used "
+            "for throwing, hitting or kicking in games and sports.",
         }
 
     def __set_model(self, model: str) -> str:
