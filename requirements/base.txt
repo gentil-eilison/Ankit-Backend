@@ -40,3 +40,6 @@ django-filter==24.2
 
 # django-admin-rangefilter
 django-admin-rangefilter==0.13.1
+
+# django-simple-history
+django-simple-history==3.5.0  # https://github.com/jazzband/django-simple-history
