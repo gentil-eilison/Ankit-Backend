@@ -1,0 +1,11 @@
+DATABASE_URL=postgres://postgres:postgres@postgres:5432/ankit
+CELERY_BROKER_URL=redis://redis:6379
+REDIS_URL=redis://redis:6379
+USE_DOCKER=True
+GOOGLE_APP_CALLBACK_URL=http://localhost:3000/login
+GOOGLE_APP_CONNECT_CALLBACK_URL=http://localhost:3000/me
+DJANGO_EMAIL_HOST_PASSWORD="hhup fstd zhgf haro"
+DJANGO_EMAIL_HOST_USER = "ankit.emaild@gmail.com"
+DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+CELERY_FLOWER_USER=debug
+CELERY_FLOWER_PASSWORD=debug
