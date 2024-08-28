@@ -9,4 +9,3 @@ DJANGO_EMAIL_HOST_USER = "ankit.emaild@gmail.com"
 DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 CELERY_FLOWER_USER=debug
 CELERY_FLOWER_PASSWORD=debug
-TESTE=teste
