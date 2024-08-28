@@ -6,4 +6,7 @@ set -o nounset
 
 
 python manage.py migrate
+python manage.py load_languages
+python manage.py load_nationalities
+python manage.py load_superuser
 exec python manage.py runserver_plus 0.0.0.0:8000
