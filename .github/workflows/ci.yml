@@ -67,9 +67,10 @@ jobs:
 
       - name: Deploy Application
         run: |
-          mkdir -p ~./ssh/
-          echo "${{ secrets.SSH_REPO_CLONE_KEY }}" > ~./ssh/repo_clone_ssh_key.pub
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_REPO_CLONE_KEY }}" > ~/.ssh/repo_clone_ssh_key
+          chmod 600 ~/.ssh/repo_clone_ssh_key
           sudo rm -rf Ankit-Backend/
-          git clone git@github.com:gentil-eilison/Ankit-Backend.git
+          GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
           git stash
           docker compose -f production.yml build && docker compose -f production.yml up
