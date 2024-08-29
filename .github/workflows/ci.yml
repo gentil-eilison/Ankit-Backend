@@ -72,5 +72,6 @@ jobs:
           chmod 600 ~/.ssh/repo_clone_ssh_key
           sudo rm -rf Ankit-Backend/
           GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
+          cd ./Ankit-Backend
           git stash
           docker compose -f production.yml build && docker compose -f production.yml up
