@@ -5,4 +5,11 @@ set -o pipefail
 set -o nounset
 
 
+until python /app/manage.py migrate --check; do
+  >&2 echo "Migrations are not finished yet - sleeping"
+  sleep 5
+done
+
+>&2 echo "Migrations finished - starting celerybeat"
+
 exec celery -A config.celery_app beat -l INFO

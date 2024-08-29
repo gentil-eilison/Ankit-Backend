@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 volumes:
   production_postgres_data: {}
@@ -44,9 +44,9 @@ services:
     volumes:
       - production_traefik:/etc/traefik/acme
     ports:
-      - '0.0.0.0:80:80'
-      - '0.0.0.0:443:443'
-      - '0.0.0.0:5555:5555'
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+      - "0.0.0.0:5555:5555"
 
   redis:
     image: docker.io/redis:6
@@ -60,6 +60,9 @@ services:
     <<: *django
     image: ankit_api_production_celerybeat
     command: /start-celerybeat
+    depends_on:
+      - django
+      - postgres
 
   flower:
     <<: *django
