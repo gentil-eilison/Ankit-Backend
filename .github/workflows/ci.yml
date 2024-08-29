@@ -63,18 +63,19 @@ jobs:
           echo "${{ secrets.AMAZON_AWS_SSH_KEY }}" > ~/.ssh/ankit_api_amazon.pem
           chmod 600 ~/.ssh/ankit_api_amazon.pem
           ssh-keyscan ankit.backend.gentil.dev.br >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/ankit_api_amazon.pem ubuntu@ankit.backend.gentil.dev.br
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_REPO_CLONE_KEY }}" > ~/.ssh/repo_clone_ssh_key
-          chmod 600 ~/.ssh/repo_clone_ssh_key
-          sudo rm -rf Ankit-Backend/
-          GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
-          cd ./Ankit-Backend
-          git stash
-          mkdir ./.envs/.production/
-          cd ./.envs/.production/
-          touch .django
-          cat ~/.django > .django
-          touch .postgres
-          cat ~/.postgres > .postgres
-          docker compose -f production.yml build && docker compose -f production.yml up
+          ssh -i ~/.ssh/ankit_api_amazon.pem ubuntu@ankit.backend.gentil.dev.br << 'EOF'
+            mkdir -p ~/.ssh/
+            echo "${{ secrets.SSH_REPO_CLONE_KEY }}" > ~/.ssh/repo_clone_ssh_key
+            chmod 600 ~/.ssh/repo_clone_ssh_key
+            sudo rm -rf Ankit-Backend/
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
+            cd ./Ankit-Backend
+            git stash
+            mkdir ./.envs/.production/
+            cd ./.envs/.production/
+            touch .django
+            cat ~/.django > .django
+            touch .postgres
+            cat ~/.postgres > .postgres
+            docker compose -f production.yml build && docker compose -f production.yml up
+          EOF
