@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from simple_history.admin import SimpleHistoryAdmin
@@ -19,7 +20,7 @@ if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
 
 
 @admin.register(User)
-class UserHistoryAdmin(SimpleHistoryAdmin):
+class UserHistoryAdmin(auth_admin.UserAdmin, SimpleHistoryAdmin):
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
     fieldsets = (

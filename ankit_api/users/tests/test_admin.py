@@ -4,11 +4,12 @@ from importlib import reload
 
 import pytest
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
 
-from ankit_api.users.models import User
+User = get_user_model()
 
 
 class TestUserAdmin:
@@ -35,6 +36,7 @@ class TestUserAdmin:
                 "password2": "My_R@ndom-P@ssw0rd",
             },
         )
+
         assert response.status_code == HTTPStatus.FOUND
         assert User.objects.filter(email="new-admin@example.com").exists()
 

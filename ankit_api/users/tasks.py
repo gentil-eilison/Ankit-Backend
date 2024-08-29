@@ -1,7 +1,15 @@
 from celery import shared_task
+from django.contrib.auth import get_user_model
 from django.db.models import F
 
 from .models import Student
+
+
+@shared_task()
+def get_users_count():
+    """A pointless Celery task to demonstrate usage."""
+    User = get_user_model()  # noqa: N806
+    return User.objects.count()
 
 
 @shared_task()
