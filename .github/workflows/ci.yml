@@ -67,6 +67,7 @@ jobs:
 
       - name: Deploy Application
         run: |
+          mkdir -p ~./ssh/
           echo "${{ secrets.SSH_REPO_CLONE_KEY }}" > ~./ssh/repo_clone_ssh_key.pub
           sudo rm -r Ankit-Backend/
           git clone git@github.com:gentil-eilison/Ankit-Backend.git
