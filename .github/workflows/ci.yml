@@ -74,4 +74,10 @@ jobs:
           GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
           cd ./Ankit-Backend
           git stash
+          mkdir /.envs/.production/
+          cd ./.envs/.production/
+          touch .django
+          cat ~/.django > .django
+          touch .postgres
+          cat ~/.postgres > .postgres
           docker compose -f production.yml build && docker compose -f production.yml up
