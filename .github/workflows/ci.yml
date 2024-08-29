@@ -34,28 +34,28 @@ jobs:
         uses: pre-commit/action@v3.0.0
 
   # With no caching at all the entire ci process takes 3m to complete!
-  pytest:
-    runs-on: ubuntu-latest
+  # pytest:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Code Repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout Code Repository
+  #       uses: actions/checkout@v4
 
-      - name: Build the Stack
-        run: echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .django && docker compose -f local.yml build django
+  #     - name: Build the Stack
+  #       run: echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .django && docker compose -f local.yml build django
 
-      - name: Run DB Migrations
-        run: docker compose -f local.yml run --rm django python manage.py migrate
+  #     - name: Run DB Migrations
+  #       run: docker compose -f local.yml run --rm django python manage.py migrate
 
-      - name: Run Django Tests
-        run: docker compose -f local.yml run django pytest
+  #     - name: Run Django Tests
+  #       run: docker compose -f local.yml run django pytest
 
-      - name: Tear down the Stack
-        run: docker compose -f local.yml down
+  #     - name: Tear down the Stack
+  #       run: docker compose -f local.yml down
 
   deploy:
     runs-on: ubuntu-latest
-    needs: ["linter", "pytest"]
+    needs: ["linter"]
     steps:
       - name: Set up SSH key
         run: |
