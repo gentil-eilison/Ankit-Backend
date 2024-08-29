@@ -74,7 +74,7 @@ jobs:
           GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
           cd ./Ankit-Backend
           git stash
-          mkdir /.envs/.production/
+          mkdir ./.envs/.production/
           cd ./.envs/.production/
           touch .django
           cat ~/.django > .django
