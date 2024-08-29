@@ -69,6 +69,7 @@ jobs:
             chmod 600 ~/.ssh/repo_clone_ssh_key
             echo "${{ secrets.SSH_REPO_CLONE_PUBLIC_KEY }}" > ~/.ssh/repo_clone_ssh_public_key.pub
             chmod 600 ~/.ssh/repo_clone_ssh_public_key.pub
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
             sudo rm -rf Ankit-Backend/
             GIT_SSH_COMMAND='ssh -i ~/.ssh/repo_clone_ssh_key' git clone git@github.com:gentil-eilison/Ankit-Backend.git
             cd ./Ankit-Backend
