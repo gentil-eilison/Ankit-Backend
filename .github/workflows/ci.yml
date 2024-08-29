@@ -60,7 +60,7 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh/
-          echo ${{ secrets.AMAZON_AWS_SSH_KEY }} >> ~/.ssh/ankit_api_amazon.pem
+          echo "${{ secrets.AMAZON_AWS_SSH_KEY }}" >> ~/.ssh/ankit_api_amazon.pem
           chmod 600 ~/.ssh/ankit_api_amazon.pem
           ssh -i ~/.ssh/ankit_api_amazon.pem ubuntu@ankit.backend.gentil.dev.br
 
