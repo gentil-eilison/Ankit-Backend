@@ -66,4 +66,9 @@ jobs:
           ssh -i ~/.ssh/ankit_api_amazon.pem ubuntu@ankit.backend.gentil.dev.br
 
       - name: Deploy Application
-        run: pwd
+        run: |
+          echo "${{ secrets.SSH_REPO_CLONE_KEY }}" > ~./ssh/repo_clone_ssh_key.pub
+          sudo rm -r Ankit-Backend/
+          git clone git@github.com:gentil-eilison/Ankit-Backend.git
+          git stash
+          docker compose -f production.yml build && docker compose -f production.yml up
