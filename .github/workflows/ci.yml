@@ -82,8 +82,5 @@ jobs:
             cat ~/.postgres > .postgres
             cd ..
             cd ..
-            chmod 644 ./.envs/.production/
-            mkdir -p ./media/
-            chmod 644 ./media/
             sudo docker compose -f production.yml build && sudo docker compose -f production.yml up -d
           EOF
