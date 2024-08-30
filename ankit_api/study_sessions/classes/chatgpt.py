@@ -1,10 +1,13 @@
 import re
 
+import environ
 from django.utils.text import get_text_list
 from openai import OpenAI
 from openai.types.chat.chat_completion import ChatCompletion
 
 from ankit_api.study_sessions.classes.anki_card import AnkiCard
+
+env = environ.Env()
 
 
 class ChatGPT:
@@ -15,7 +18,7 @@ class ChatGPT:
 
     def __init__(self, model: str = "gpt-3.5-turbo") -> None:
         self.__model: str = self.__set_model(model)
-        self.__client = OpenAI()
+        self.__client = OpenAI(api_key=env.str("OPENAI_API_KEY"))
         self.__current_response: str = []
         self.__card_types: dict[str] = {
             "basic": "a tradução da frase que está na frente para o português",
