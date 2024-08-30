@@ -85,6 +85,7 @@ COPY --chown=django:django . ${APP_HOME}
 
 # make django owner of the WORKDIR directory as well.
 RUN chown -R django:django ${APP_HOME}
+RUN mkdir -p ${APP_HOME}/ankit_api/media
 RUN chmod -R 644 ${APP_HOME}/ankit_api/media
 RUN chown -R django:django ${APP_HOME}/ankit_api/media
 
