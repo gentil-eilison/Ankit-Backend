@@ -70,8 +70,10 @@ class ChatGPT:
         is_topic,
     ) -> str:
         if is_topic:
-            return f"{self.__card_types[card_type].format(idioma=language)}, sendo que "
-        "a palavra se refere à palavra da frase que faz parte do tópico."
+            return (
+                f"{self.__card_types[card_type].format(idioma=language)}, sendo que "
+                "a palavra se refere à palavra da frase que faz parte do tópico."
+            )
         return f"{self.__card_types[card_type].format(idioma=language)}"
 
     def get_card_for_word(self, word: str, language: str, card_type: str) -> None:
