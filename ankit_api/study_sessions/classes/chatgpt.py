@@ -20,13 +20,12 @@ class ChatGPT:
         self.__model: str = self.__set_model(model)
         self.__client = OpenAI(api_key=env.str("OPENAI_API_KEY"))
         self.__current_response: str = []
-        self.__card_types: dict[str] = {
+        self.__card_types: dict[str, str] = {
             "basic": "a tradução da frase que está na frente para o português",
-            "intermediate": "a palavra a qual foi solicitada a tradução, seguido de sua"
-            "tradução, na estrutura do seguinte exemplo: ball: bola.",
-            "advanced": "a palavra a qual foi solicitada a tradução, seguido de sua"
-            "definição na estrutura do seguinte exemplo: ball: a round object used "
-            "for throwing, hitting or kicking in games and sports.",
+            "intermediate": "a palavra em {idioma} seguido de sua"
+            "tradução, na seguinte estrutura: palavra em {idioma}: tradução.",
+            "advanced": "a palavra em {idioma}, seguido de sua"
+            "definição também em {idioma}, na seguinte estrutura: palavra: definição.",
         }
 
     def __set_model(self, model: str) -> str:
@@ -70,20 +69,10 @@ class ChatGPT:
         language: str,
         is_topic,
     ) -> str:
-        if card_type == "advanced":
-            if is_topic:
-                return (
-                    f"{self.__card_types[card_type]} {language}, sendo que o termo "
-                    "'palavra' se refere à palavra da frase que faz parte do tópico "
-                    "que pedi"
-                )
-            return f"{self.__card_types[card_type]} {language}"
-        if card_type == "intermediate" and is_topic:
-            return (
-                f"{self.__card_types[card_type]}, sendo que 'palavra' se refere ao "
-                "termo da frase que faz parte do tópico que pedi"
-            )
-        return f"{self.__card_types[card_type]}"
+        if is_topic:
+            return f"{self.__card_types[card_type].format(idioma=language)}, sendo que "
+        "a palavra se refere à palavra da frase que faz parte do tópico."
+        return f"{self.__card_types[card_type].format(idioma=language)}"
 
     def get_card_for_word(self, word: str, language: str, card_type: str) -> None:
         verse_card_prompt = self.get_prompt_for_card_type(
