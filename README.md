@@ -1,81 +1,53 @@
 # ankit_api
 
-API used to centralize language learning resources, specifically AI, Anki and Google TTS.
+API utilizada para centralizar recursos para aprendizagem de idiomas, specifically AI and Anki.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 License: MIT
 
-## Settings
+## Configurações
 
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
 
-## Basic Commands
+## Comandos Básicos
 
-### Setting Up Your Users
+### Configuração Inicial
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+- Ao baixar a aplicação, será necessário rodar os comandos:
+        `$ python manage.py migrate`
+        `$ python manage.py load_nationalities`
+        `$ python manage.py load_languages`
+        `$ python manage.py load_superuser`
 
-- To create a **superuser account**, use this command:
+Esses comandos, respectivamente, aplicam as migrações no banco de dados; carregam dados sobre nacionalidades, idiomas e cria um superusuário padrão para o administrador. A senha e e-mail dele podem ser encontrados no arquivo `load_superuser.py`. Também será necessário criar um arquivo `.env` utilizando o arquivo `.env-EXAMPLE` como exemplo.
+
+- Para criar um novo superusuário, basta utilizar este comando:
 
       $ python manage.py createsuperuser
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
-
-### Type checks
-
-Running type checks with mypy:
-
-    $ mypy ankit_api
-
-### Test coverage
-
-To run the tests, check your test coverage, and generate an HTML coverage report:
-
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
-
-#### Running tests with pytest
-
-    $ pytest
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html#sass-compilation-live-reloading).
-
 ### Celery
 
-This app comes with Celery.
+Esta aplicação utiliza o celery como um _distributed task queue_, além de conter também tarefas periodicas pré-configuradas e também aquelas que serão configuradas pelo administrador para realização do _backup_ do banco de dados. Dessa forma, é necessário rodar tanto o _celery worker_, quanto o _celery_beat_.
 
-To run a celery worker:
+### Rodando o projeto
 
-```bash
-cd ankit_api
-celery -A config.celery_app worker -l info
+Para rodar o projeto localmente sem utilizar o Docker, utilize estes comandos:
+
+```
+$ python manage.py runserver
+$ celery -A config.celery_app worker --loglevel=INFO
+$ celery -A config.celery_app beat --loglevel=INFO
 ```
 
-Please note: For Celery's import magic to work, it is important _where_ the celery commands are run. If you are in the same folder with _manage.py_, you should be right.
+Pronto!
 
-To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service. You can start it as a standalone process:
+Para rodar com o Docker, crie, na pasta raíz do projeto, uma pasta `.envs` e, dentro dela, uma pasta `.local`. Dentro da última pasta, você irá criar dois arquivos: (1) É o arquivo `.django`, no qual você irá inserir as variáveis de ambiente do contêiner do Django; (2) O arquivo `.postgres`, onde as as variáveis de configuração do banco estarão. Após isso, rode:
 
-```bash
-cd ankit_api
-celery -A config.celery_app beat
+```
+docker compose -f local.yml build
+docker compose -f local.yml up
 ```
 
-or you can embed the beat service inside a worker with the `-B` option (not recommended for production use):
-
-```bash
-cd ankit_api
-celery -A config.celery_app worker -B -l info
-```
-
-## Deployment
-
-The following details how to deploy this application.
-
-### Docker
-
-See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
+Pronto!
