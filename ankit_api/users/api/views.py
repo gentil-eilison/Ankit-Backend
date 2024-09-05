@@ -1,24 +1,18 @@
 import environ
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import RegisterView
-from dj_rest_auth.registration.views import SocialConnectView
-from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.registration import views
 from django.db import IntegrityError
 from django.db.models.query import QuerySet
+from rest_framework import generics
 from rest_framework import mixins
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView
-from rest_framework.generics import ListCreateAPIView
-from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from ankit_api.users.models import Nationality
-from ankit_api.users.models import Student
-from ankit_api.users.models import User
+from ankit_api.users import models
 
 from . import serializers
 
@@ -31,11 +25,11 @@ class UserViewSet(
     GenericViewSet,
 ):
     serializer_class = serializers.UserSerializer
-    queryset = User.objects.none()
+    queryset = models.User.objects.none()
     lookup_field = "pk"
 
     def get_queryset(self) -> QuerySet:
-        return User.objects.filter(id=self.request.user.id)
+        return models.User.objects.filter(id=self.request.user.id)
 
     @action(detail=False)
     def me(self, request):
@@ -46,7 +40,7 @@ class UserViewSet(
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-class AnkitSignUpView(RegisterView):
+class AnkitSignUpView(views.RegisterView):
     def create(self, request, *args, **kwargs):
         try:
             return super().create(request, *args, **kwargs)
@@ -57,8 +51,8 @@ class AnkitSignUpView(RegisterView):
             )
 
 
-class StudentCreateListView(ListCreateAPIView):
-    queryset = Student.objects.all()
+class StudentCreateListView(generics.ListCreateAPIView):
+    queryset = models.Student.objects.all()
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -69,14 +63,14 @@ class StudentCreateListView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class StudentUpdateView(UpdateAPIView):
-    queryset = Student.objects.all()
+class StudentUpdateView(generics.UpdateAPIView):
+    queryset = models.Student.objects.all()
     serializer_class = serializers.StudentSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
 
-class RemoveStudentProfilePictureView(UpdateAPIView):
-    queryset = Student.objects.all()
+class RemoveStudentProfilePictureView(generics.UpdateAPIView):
+    queryset = models.Student.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
     def update(self, request, *args, **kwargs):
@@ -102,19 +96,19 @@ class CustomGoogleOAuth2Adapter(GoogleOAuth2Adapter):
         return self.get_provider().sociallogin_from_response(request, data)
 
 
-class GoogleLogin(SocialLoginView):
+class GoogleLogin(views.SocialLoginView):
     adapter_class = CustomGoogleOAuth2Adapter
     callback_url = environ.Env().str("GOOGLE_APP_CALLBACK_URL")
     client_class = OAuth2Client
 
 
-class GoogleConnect(SocialConnectView):
+class GoogleConnect(views.SocialConnectView):
     adapter_class = CustomGoogleOAuth2Adapter
     callback_url = environ.Env().str("GOOGLE_APP_CONNECT_CALLBACK_URL")
     client_class = OAuth2Client
 
 
-class NationalityListView(ListAPIView):
-    queryset = Nationality.objects.all()
+class NationalityListView(generics.ListAPIView):
+    queryset = models.Nationality.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = serializers.NationalitySerializer

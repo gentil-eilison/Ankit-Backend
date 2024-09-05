@@ -2,9 +2,9 @@ import datetime
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from rest_framework import permissions
 from rest_framework import status
 from rest_framework import views
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ankit_api.study_sessions import serializers
@@ -66,7 +66,7 @@ class HistoricalDataByLanguageView(views.APIView):
 
 
 class StudySessionCountByLanguageView(HistoricalDataByLanguageView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.StudySessionsByLanguageSerializer
     annotate_name = "study_sessions_count"
 
@@ -77,7 +77,7 @@ class StudySessionCountByLanguageView(HistoricalDataByLanguageView):
 
 
 class AddedCardsByLanguageView(HistoricalDataByLanguageView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     annotate_name = "cards_added"
     serializer_class = serializers.CardsAddedByLanguageSerializer
 
