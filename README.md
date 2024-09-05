@@ -16,10 +16,13 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ### Configuração Inicial
 
 - Ao baixar a aplicação, será necessário rodar os comandos:
-        `$ python manage.py migrate`
-        `$ python manage.py load_nationalities`
-        `$ python manage.py load_languages`
-        `$ python manage.py load_superuser`
+
+```
+$ python manage.py migrate`
+$ python manage.py load_nationalities`
+$ python manage.py load_languages`
+$ python manage.py load_superuser`
+```
 
 Esses comandos, respectivamente, aplicam as migrações no banco de dados; carregam dados sobre nacionalidades, idiomas e cria um superusuário padrão para o administrador. A senha e e-mail dele podem ser encontrados no arquivo `load_superuser.py`. Também será necessário criar um arquivo `.env` utilizando o arquivo `.env-EXAMPLE` como exemplo.
 
