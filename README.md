@@ -54,3 +54,6 @@ docker compose -f local.yml up
 ```
 
 Pronto!
+
+### Documentação da API
+A documentação pode ser encontrada em [API Docs](http://localhost:<porta>/api/docs/) ou em [API Docs (Prod)](https://ankit.backend.gentil.dev.br/api/docs/)
