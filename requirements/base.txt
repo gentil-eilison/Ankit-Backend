@@ -43,3 +43,6 @@ django-admin-rangefilter==0.13.1
 
 # django-simple-history
 django-simple-history==3.5.0  # https://github.com/jazzband/django-simple-history
+
+# django-dbbackup
+django-dbbackup==4.2.1
