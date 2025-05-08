@@ -103,6 +103,8 @@ class Student(TimeStampedModel):
             self.studied_today = True
             self.save()
 
+    # Mover também para o queryset de StudySessions
+
     def update_total_study_time(self):
         self.total_study_time = self.user.study_sessions.aggregate(
             models.Sum("duration_in_minutes"),
