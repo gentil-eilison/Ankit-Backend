@@ -70,3 +70,7 @@ INSTALLED_APPS += ["django_extensions"]
 CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+CORS_ALLOWED_ORIGINS = [
+    "https://ankit-frontend.vercel.app",
+    "http://localhost:3000"
+]
