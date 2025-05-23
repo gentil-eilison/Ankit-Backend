@@ -12,11 +12,11 @@ env = environ.Env()
 
 class ChatGPT:
     MODELS: tuple[str] = (
-        "gpt-4",
+        "gpt-4.1",
         "gpt-3.5-turbo",
     )
 
-    def __init__(self, model: str = "gpt-3.5-turbo") -> None:
+    def __init__(self, model: str = "gpt-4.1") -> None:
         self.__model: str = self.__set_model(model)
         self.__client = OpenAI(api_key=env.str("OPENAI_API_KEY"))
         self.__current_response: str = []
