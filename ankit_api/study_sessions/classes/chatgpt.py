@@ -21,7 +21,8 @@ class ChatGPT:
         self.__client = OpenAI(api_key=env.str("OPENAI_API_KEY"))
         self.__current_response: str = []
         self.__card_types: dict[str, str] = {
-            "basic": "a tradução da frase que está na frente para o português",
+            "basic": "a tradução da frase que está na frente "
+            "do flashcard para o português",
             "intermediate": "a palavra em {idioma} seguido de sua"
             "tradução, na seguinte estrutura: palavra em {idioma}: tradução.",
             "advanced": "a palavra em {idioma}, seguido de sua"

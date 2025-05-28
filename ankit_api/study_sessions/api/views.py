@@ -1,21 +1,20 @@
 from operator import itemgetter
-import csv
 
 from django.shortcuts import get_object_or_404
-
 from drf_spectacular.utils import extend_schema
 from rest_framework import pagination
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.serializers import BaseSerializer
 from rest_framework.views import APIView
 
 from ankit_api.study_sessions import models
 from ankit_api.study_sessions import serializers
+from ankit_api.study_sessions.classes.anki_card import AnkiCard
 from ankit_api.study_sessions.classes.chatgpt import ChatGPT
 
 from . import filtersets
@@ -108,23 +107,28 @@ class LanguagesListView(ListAPIView):
     serializer_class = serializers.LanguageSerializer
 
 
-class CardsFromCSVView(RetrieveAPIView):
+class CardsFromCSVView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
-    def retrieve(self, request, *args, **kwargs):
-        session = get_object_or_404(models.StudySession, pk=kwargs["pk"], user=request.user)
+    def get(self, request, *args, **kwargs):
+        session = get_object_or_404(
+            models.StudySession,
+            pk=kwargs.get("pk"),
+            user=request.user,
+        )
 
         if not session.csv_file:
             return Response(
-            status=status.HTTP_400_BAD_REQUEST,
-            data={"error": "Study session not finished"},
+                status=status.HTTP_400_BAD_REQUEST,
+                data={"error": "Study session not finished"},
             )
-        
+
         try:
-            with open(session.csv_file.path, newline='', encoding='utf-8') as csvfile:
-                reader = csv.reader(csvfile)
-                cards = [{ "front": row[0], "back": row[1] } for row in reader]
-        except Exception as e:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"error": f"Error reading CSV: {str(e)}"})
+            cards = AnkiCard.from_file_to_dict_list(session.csv_file.path)
+        except Exception as e:  # noqa: BLE001
+            return Response(
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                data={"error": f"Error reading CSV: {e!s}"},
+            )
 
         return Response(cards)

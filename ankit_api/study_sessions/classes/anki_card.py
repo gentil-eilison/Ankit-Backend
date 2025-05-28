@@ -1,3 +1,7 @@
+import csv
+from pathlib import Path
+
+
 class AnkiCard:
     def __init__(self, front: str, back: str, audio_filename: str = ""):
         self.__front = front
@@ -27,3 +31,9 @@ class AnkiCard:
     @audio_filename.setter
     def audio_filename(self, new_audio_filename: str) -> None:
         self.__audio_filename = new_audio_filename
+
+    @classmethod
+    def from_file_to_dict_list(cls, csv_path: str) -> list[dict[str, str]]:
+        with Path.open(csv_path, newline="", encoding="utf-8") as csvfile:
+            reader = csv.reader(csvfile)
+            return [{"front": row[0], "back": row[1]} for row in reader]
