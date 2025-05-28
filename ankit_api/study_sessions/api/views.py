@@ -93,8 +93,8 @@ class StudySessionViewSet(viewsets.ModelViewSet):
             )
             cards_serializer.is_valid(raise_exception=True)
             study_session.finish(cards_data=cards_serializer.data)
-            response_csv_file = self.get_serializer_class()(study_session)
-            return Response(data=response_csv_file.data, status=status.HTTP_200_OK)
+            cards = AnkiCard.from_file_to_dict_list(study_session.csv_file.path)
+            return Response(data={"session_cards": cards}, status=status.HTTP_200_OK)
         return Response(
             status=status.HTTP_400_BAD_REQUEST,
             data={"error": "Study session already finished"},
