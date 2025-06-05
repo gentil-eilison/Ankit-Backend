@@ -22,11 +22,11 @@ class ChatGPT:
         self.__current_response: str = []
         self.__card_types: dict[str, str] = {
             "basic": "a tradução da frase que está na frente "
-            "do flashcard para o português",
-            "intermediate": "a palavra em {idioma} seguido de sua"
-            "tradução, na seguinte estrutura: palavra em {idioma}: tradução.",
-            "advanced": "a palavra em {idioma}, seguido de sua"
-            "definição também em {idioma}, na seguinte estrutura: palavra: definição.",
+            "do flashcard para o português.",
+            "intermediate": "a palavra, em {idioma}, seguido de sua"
+            "tradução, na estrutura: palavra: tradução.",
+            "advanced": "a palavra, em {idioma}, seguido de sua"
+            "definição, também em {idioma}, na seguinte estrutura: palavra: definição.",
         }
 
     def __set_model(self, model: str) -> str:
@@ -72,8 +72,9 @@ class ChatGPT:
     ) -> str:
         if is_topic:
             return (
-                f"{self.__card_types[card_type].format(idioma=language)}, sendo que "
-                "a palavra se refere à palavra da frase que faz parte do tópico."
+                f"{self.__card_types[card_type].format(idioma=language)}. Tenha "
+                "em mente que o termo 'Palavra' se refere à palavra "
+                "da frase que faz parte do tópico."
             )
         return f"{self.__card_types[card_type].format(idioma=language)}"
 
@@ -84,7 +85,7 @@ class ChatGPT:
             is_topic=False,
         )
         prompt = (
-            "Crie uma flashcard com a seguinte estrutura: \n"
+            "Crie um flashcard com a seguinte estrutura: \n"
             f"Frente: frase em {language} com a palavra {word} dentro da frase\n"
             f"Verso: {verse_card_prompt}"
         )
