@@ -23,9 +23,9 @@ class ChatGPT:
         self.__card_types: dict[str, str] = {
             "basic": "a tradução da frase que está na frente "
             "do flashcard para o português.",
-            "intermediate": "a palavra, em {idioma}, seguido de sua"
+            "intermediate": "a palavra, em {idioma}, seguido de sua "
             "tradução, na estrutura: palavra: tradução.",
-            "advanced": "a palavra, em {idioma}, seguido de sua"
+            "advanced": "a palavra, em {idioma}, seguido de sua "
             "definição, também em {idioma}, na seguinte estrutura: palavra: definição.",
         }
 
