@@ -85,8 +85,9 @@ class ChatGPT:
             is_topic=False,
         )
         prompt = (
-            "Crie um flashcard com a seguinte estrutura: \n"
-            f"Frente: frase em {language} com a palavra {word} dentro da frase\n"
+            "Crie um flashcard com a seguinte estrutura, "
+            "cada uma em uma linha própria: \n"
+            f"Frente: frase, em {language}, com a palavra {word} dentro\n"
             f"Verso: {verse_card_prompt}"
         )
         response = self.get_response_for(prompt)
@@ -105,10 +106,10 @@ class ChatGPT:
             is_topic=True,
         )
         prompt = (
-            f"Você poderia criar no mínimo {cards_count} flashcards"
-            f"com vocabulário de {topic} completo em {language}, com"
-            f"a frente contendo o texto 'Frente:' e o conteúdo sendo"
-            f"uma frase de exemplo, e o verso contendo o texto 'Verso:'"
+            f"Você poderia criar, no mínimo, {cards_count} flashcards "
+            f"com vocabulário de {topic} completo, em {language}, com "
+            f"a frente contendo o texto 'Frente:' e o conteúdo sendo "
+            f"uma frase de exemplo; e o verso contendo o texto 'Verso:' "
             f"com {verse_card_prompt}. Só pode haver uma palavra do tópico por frase."
         )
         response = self.get_response_for(prompt)
