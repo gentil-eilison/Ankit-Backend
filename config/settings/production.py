@@ -158,5 +158,4 @@ SPECTACULAR_SETTINGS["SERVERS"] = [
 # ------------------------------------------------------------------------------
 CORS_ALLOWED_ORIGINS = [
     "https://ankit-frontend.vercel.app",
-    "Teste",
 ]
