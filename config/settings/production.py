@@ -151,8 +151,7 @@ LOGGING = {
 # -------------------------------------------------------------------------------
 # Tools that generate code samples can use SERVERS to point to the correct domain
 SPECTACULAR_SETTINGS["SERVERS"] = [
-    {"url": "https://ankit.backend.gentil.dev.br",
-        "description": "Production server"},
+    {"url": "https://ankit.backend.gentil.dev.br", "description": "Production server"},
 ]
 # Your stuff...
 # ------------------------------------------------------------------------------
