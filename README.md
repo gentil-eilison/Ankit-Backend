@@ -5,7 +5,7 @@ vocabulary in an efficient way using evidence-based techniques and generative AI
 
 This project was built using Cookiecutter Django as boilerplate.
 
-# The Idea
+# The Idea 💡
 
 Studying languages is a pretty interesting hobby. It allows one to communicate with people around the world, get to know different cultures and even
 get better job opportunities. However, many people struggle to remember or to learn new vocabulary. Learning new words when studying a new language is extremely
@@ -13,7 +13,7 @@ important, for it enables speakers of the language to communicate more effective
 which would have an optimized workflow for acquiring vocabulary without the need for the students themselves to know how to apply effective learning techniques
 is alluring, reducing the time needed to invest in language learning.
 
-# Ankit
+# Ankit ⭐
 
 The application consists of a website that would allow users to create study sessions and generate flashcards based on a specific topic they want to learn. The use-case
 diagram of Ankit can be seen below:
@@ -50,6 +50,20 @@ The distributed task queue is used to execute jobs which update the users streak
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+## Tools Used 🛠️
+* Django
+* Django REST Framework
+* PostgreSQL
+* Redis
+* Celery
+* django-simple-history
+* Django All-Auth
+* Django REST Framework Simple JWT
+* OpenAI's Python SDK
+
+## Design Patterns 📦
+* Façade class was implemented to make communiton with OpenAI's API maintainable and scalable
 
 License: MIT
 
