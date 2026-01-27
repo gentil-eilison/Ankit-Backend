@@ -46,7 +46,7 @@ The C4 model on a Container level is shown below.
 
 ![Ankit - Modelo C4 (C3) - Contêiner](https://github.com/user-attachments/assets/5484ea69-be06-4b2f-a569-a833d0ea3c28)
 
-The distributed task queue is used to execute jobs which update the users streak.
+The Django container -- the one this application is about -- follows the classic Django MVT (Model, View, Template) architecture. The distributed task queue is used to execute jobs which update the users streak.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
