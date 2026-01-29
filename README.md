@@ -18,7 +18,7 @@ is alluring, reducing the time needed to invest in language learning.
 The application consists of a website that would allow users to create study sessions and generate flashcards based on a specific topic they want to learn. The use-case
 diagram of Ankit can be seen below:
 
-![Ankit - Casos de Uso](https://github.com/user-attachments/assets/9e3b2deb-94ea-404b-b8b2-154e9c9f5167)
+![Ankit - Casos de Uso(2)](https://github.com/user-attachments/assets/1616cd7e-839e-4375-9226-5d49ecdf5edd)
 
 After creating their accounts (whether by using social login with Google or through traditional credentials), users can create study sessions, which will be, ideally, about
 a specific topic on a specific langauge. On a specific study session page, they will be present a form where they can select multiple options for the format of their flashcards:
